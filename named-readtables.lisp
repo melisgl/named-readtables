@@ -179,7 +179,47 @@ Notes:
 (deftype named-readtable-designator ()
   "Either a symbol or a readtable itself."
   `(or readtable-designator symbol))
+
+;;;;; Compiler macros
 
+;;; Since the :STANDARD readtable is interned, and we can't enforce
+;;; its immutability, we signal a style-warning for suspicious uses
+;;; that may result in strange behaviour:
+
+;;; Modifying the standard readtable would, obviously, lead to a
+;;; propagation of this change to all places which use the :STANDARD
+;;; readtable (and thus rendering this readtable to be non-standard,
+;;; in fact.)
+(eval-when (:compile-toplevel :load-toplevel :execute)
+  (defun constant-standard-readtable-expression-p (thing)
+    (or (null thing)
+        (eq thing :standard)
+        (and (consp thing)
+             (find thing 
+                   '((find-readtable nil)
+                     (find-readtable :standard)
+                     (ensure-readtable nil)
+                     (ensure-readtable :standard))
+                   :test #'equal))))
+
+  (defun signal-suspicious-registration-warning (name-expr readtable-expr)
+    (when (constant-standard-readtable-expression-p readtable-expr)
+      (simple-style-warn
+       "Caution: ~<You're trying to register the :STANDARD readtable ~
+    under a new name ~S. As modification of the :STANDARD readtable ~
+    is not permitted, subsequent modification of ~S won't be ~
+    permitted either. You probably want to wrap COPY-READTABLE ~
+    around~@:>~%             ~S"
+       (list name-expr name-expr) readtable-expr))))
+
+(define-compiler-macro register-readtable (&whole form name readtable)
+  (signal-suspicious-registration-warning name readtable)
+  form)
+
+(define-compiler-macro ensure-readtable (&whole form name &optional (default nil default-p))
+  (when default-p
+    (signal-suspicious-registration-warning name default))
+  form)
 
 (declaim (special *standard-readtable* *empty-readtable*))
 
@@ -476,53 +516,5 @@ NIL."
           ((eq readtable *case-preserving-standard-readtable*) :modern)
 	  (t nil))))
 
-
-;;;;; Compiler macros
-
-;;; Since the :STANDARD readtable is interned, and we can't enforce
-;;; its immutability, we signal a style-warning for suspicious uses
-;;; that may result in strange behaviour:
-
-;;; Modifying the standard readtable would, obviously, lead to a
-;;; propagation of this change to all places which use the :STANDARD
-;;; readtable (and thus rendering this readtable to be non-standard,
-;;; in fact.)
-
-
-(defun constant-standard-readtable-expression-p (thing)
-  (cond ((symbolp thing) (or (eq thing 'nil) (eq thing :standard)))
-	((consp thing)   (some (lambda (x) (equal thing x))
-			       '((find-readtable nil)
-				 (find-readtable :standard)
-				 (ensure-readtable nil)
-				 (ensure-readtable :standard))))
-	(t nil)))
-
-(defun signal-suspicious-registration-warning (name-expr readtable-expr)
-  (simple-style-warn
-   "Caution: ~<You're trying to register the :STANDARD readtable ~
-    under a new name ~S. As modification of the :STANDARD readtable ~
-    is not permitted, subsequent modification of ~S won't be ~
-    permitted either. You probably want to wrap COPY-READTABLE ~
-    around~@:>~%             ~S"
-   (list name-expr name-expr) readtable-expr))
-
-(let ()
-  ;; Defer to runtime because compiler-macros are made available already
-  ;; at compilation time. So without this two subsequent invocations of
-  ;; COMPILE-FILE on this file would result in an undefined function
-  ;; error because the two above functions are not yet available.
-  ;; (This does not use EVAL-WHEN because of Fig 3.7, CLHS 3.2.3.1;
-  ;; cf. last example in CLHS "EVAL-WHEN" entry.)
-  
-  (define-compiler-macro register-readtable (&whole form name readtable)
-    (when (constant-standard-readtable-expression-p readtable)
-      (signal-suspicious-registration-warning name readtable))
-    form)
-
-  (define-compiler-macro ensure-readtable (&whole form name &optional (default nil default-p))
-    (when (and default-p (constant-standard-readtable-expression-p default))
-      (signal-suspicious-registration-warning name default))
-    form))
 
 
