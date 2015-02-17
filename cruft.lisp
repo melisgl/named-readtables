@@ -115,7 +115,7 @@
         ;; Treat all these closures equivalent.
         (flet ((internal-dispatch-macro-closure-name-p (name)
                  (find "SB-IMPL::%MAKE-DISPATCH-MACRO-CHAR" name
-                       :key #'prin1-to-string :test #'string=)))
+                       :key #'prin1-to-string :test #'string-equal)))
           (let ((n1 (sb-impl::%fun-name fn1))
                 (n2 (sb-impl::%fun-name fn2)))
             (and (listp n1) (listp n2)
