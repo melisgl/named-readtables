@@ -20,7 +20,10 @@
                             (find-package "SB-IMPL"))
            (pushnew :sbcl+safe-standard-readtable *features*)))
 
-
+(eval-when (:compile-toplevel :execute)
+  #+clozure
+  (unless (fboundp 'ccl::rdtab.alist)
+         (pushnew :sparse-vector-readtable *features*)))
 ;;;;; Implementation-dependent cruft
 
 ;;;; Mapping between a readtable object and its readtable-name.
@@ -129,10 +132,14 @@
 ;;; if not declared inline.
 (define-cruft dispatch-macro-char-p (char rt)
   "Is CHAR a dispatch macro character in RT?"
-  #+ :ccl
+  #+(and :clozure (not :sparse-vector-readtable))
   (let ((def (cdr (nth-value 1 (ccl::%get-readtable-char char rt)))))
     (or (consp (cdr def))
         (eq (car def) #'ccl::read-dispatch)))
+  #+(and :clozure :sparse-vector-readtable)
+  (let ((def (nth-value 1 (ccl::%get-readtable-char char rt))))
+    (and (consp def)
+         (eq (car def) #'ccl::read-dispatch)))
   #+ :common-lisp
   (handler-case (locally
                     #+clisp (declare (notinline get-dispatch-macro-character))
@@ -200,7 +207,7 @@
                       (values t char disp-fn nil nil))))))
         #'grovel-base-chars))))
 
-#+clozure
+#+(and :clozure (not :sparse-vector-readtable))
 (defun %make-readtable-iterator (readtable)
   (let ((char-macro-alist (ccl::rdtab.alist readtable)))
     (lambda ()
@@ -210,6 +217,50 @@
                 (values t char (car defn) t (cdr defn))
                 (values t char defn nil nil)))
           (values nil nil nil nil nil)))))
+       
+#+(and :clozure :sparse-vector-readtable)
+(progn
+  (defun readtable-vector-to-alist (sv)
+    (ccl::with-lock-grabbed ((ccl::sparse-vector-lock sv))
+      (let* ((table (ccl::sparse-vector-table sv))
+             (majormax (length table))
+             (default (ccl::sparse-vector-default sv))
+             (alist nil))
+        (flet ((tally-vector (v major)
+                 (dotimes (i 256)
+                   (declare (fixnum i))
+                   (unless (eql default (ccl::uvref v i))
+                     (setf alist (acons (code-char (logior (ash major 8) i))
+                                        (ccl::uvref v i)
+                                        alist))))))
+          (dotimes (i majormax)
+            (declare (fixnum i))
+            (let ((v (svref table i)))
+              (when v (tally-vector v i))))
+          alist))))
+  
+  (defun readtable-to-alist (readtable)
+    "Returns an alist from given readtable"
+    (let* ((sv (ccl::rdtab.macros readtable))
+           (alist (readtable-vector-to-alist sv)))
+      (loop for pair in alist collect
+        (let ((more (cdr pair)))
+          (if (and (consp more)
+                   (typep (cdr more) 'ccl::sparse-vector))
+              (cons (first pair)
+                    (cons (second pair)
+                          (readtable-vector-to-alist (cdr more))))
+              pair)))))
+  
+  (defun %make-readtable-iterator (readtable)
+    (let ((char-macro-alist (readtable-to-alist readtable)))
+      (lambda ()
+        (if char-macro-alist
+            (destructuring-bind (char . defn) (pop char-macro-alist)
+              (if (consp defn)
+                  (values t char (car defn) t (cdr defn))
+                  (values t char defn nil nil)))
+            (values nil nil nil nil nil))))))
 
 ;;; Written on ACL 8.0.
 #+allegro
