@@ -164,25 +164,8 @@
      ;; NB. The :LOAD-TOPLEVEL is needed for cases like (DEFVAR *FOO*
      ;; (GET-MACRO-CHARACTER #\"))
      (setf *readtable* (ensure-readtable ',name))
-     (when (find-package :swank)
-       (%frob-swank-readtable-alist *package* *readtable*))))
+     ))
 
-;;; KLUDGE: [interim solution]
-;;;
-;;;   We need support for this in Slime itself, because we want IN-READTABLE
-;;;   to work on a per-file basis, and not on a per-package basis.
-;;;
-(defun %frob-swank-readtable-alist (package readtable)
-  (let ((readtable-alist (find-symbol (string '#:*readtable-alist*)
-				      (find-package :swank))))
-    (when (boundp readtable-alist)
-      (pushnew (cons (package-name package) readtable)
-	       (symbol-value readtable-alist)
-	       :test #'(lambda (entry1 entry2)
-			 (destructuring-bind (pkg-name1 . rt1) entry1
-			   (destructuring-bind (pkg-name2 . rt2) entry2
-			     (and (string= pkg-name1 pkg-name2)
-				  (eq rt1 rt2)))))))))
 
 (deftype readtable-designator ()
   `(or null readtable))
