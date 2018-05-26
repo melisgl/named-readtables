@@ -37,13 +37,15 @@
                            collect `(check-type ,req-arg ,req-type))
 
                    ;; CHECK-TYPE optional parameters
-                   ,@(loop initially (assert (or (null opts)
-                                                 (eq (pop type-list) '&optional)))
-                           for (opt-arg . nil) in opts
-                           for opt-type = (pop type-list)
-                           do (assert opt-type)
-                           collect `(check-type ,opt-arg ,opt-type))
-
+                   ,@(progn
+                      (assert (or (null opts)
+                                  (eq (pop type-list) '&optional)))
+                      
+                      (loop for (opt-arg . nil) in opts
+                            for opt-type = (pop type-list)
+                            do (assert opt-type)
+                            collect `(check-type ,opt-arg ,opt-type)))
+                   
                    ;; CHECK-TYPE rest parameter
                    ,@(when rest
                        (assert (eq (pop type-list) '&rest))
@@ -53,10 +55,12 @@
                              (check-type x ,rest-type)))))
 
                    ;; CHECK-TYPE key parameters
-                   ,@(loop initially (assert (or (null keys)
-                                                 (eq (pop type-list) '&key)))
-                           for ((keyword key-arg)  . nil) in keys
-                           for (nil key-type) = (find keyword type-list :key #'car)
-                           collect `(check-type ,key-arg ,key-type)))
+                   ,@(progn
+                      (assert (or (null keys)
+                                  (eq (pop type-list) '&key)))
+                      
+                      (loop for ((keyword key-arg)  . nil) in keys
+                            for (nil key-type) = (find keyword type-list :key #'car)
+                            collect `(check-type ,key-arg ,key-type))))
 
                  ,@body))))))))
