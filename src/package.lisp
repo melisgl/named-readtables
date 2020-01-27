@@ -6,9 +6,9 @@
 (eval-when (:compile-toplevel :load-toplevel :execute)
   (locally
       (declare #+sbcl
-               (sb-ext:muffle-conditions sb-kernel::package-at-variance))
+               (sb-ext:muffle-conditions sb-int:package-at-variance))
     (handler-bind
-        (#+sbcl (sb-kernel::package-at-variance #'muffle-warning))
+        (#+sbcl (sb-int:package-at-variance #'muffle-warning))
       (defpackage :editor-hints.named-readtables
         (:use :common-lisp)
         (:nicknames :named-readtables)
