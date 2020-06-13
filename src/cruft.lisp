@@ -42,7 +42,7 @@
 
 (define-cruft %list-all-readtable-names ()
   "Return a list of all available readtable names."
-  #+ :common-lisp (list* :standard :current
+  #+ :common-lisp (list* :standard :current :modern
                          (loop for name being each hash-value of *readtable-names*
                                collect name)))
 
