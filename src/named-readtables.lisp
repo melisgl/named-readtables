@@ -181,13 +181,13 @@
   (let ((readtable-alist (find-symbol (string '#:*readtable-alist*)
 				      (find-package :swank))))
     (when (boundp readtable-alist)
-      (pushnew (cons (package-name package) readtable)
-	       (symbol-value readtable-alist)
-	       :test #'(lambda (entry1 entry2)
-			 (destructuring-bind (pkg-name1 . rt1) entry1
-			   (destructuring-bind (pkg-name2 . rt2) entry2
-			     (and (string= pkg-name1 pkg-name2)
-				  (eq rt1 rt2)))))))))
+      (let ((new-item (cons (package-name package) readtable)))
+        (setf (symbol-value readtable-alist)
+              (cons
+               new-item
+               (remove new-item (symbol-value readtable-alist)
+                       :test (lambda (entry1 entry2)
+                               (string= (car entry1) (car entry2))))))))))
 
 (deftype readtable-designator ()
   `(or null readtable))
