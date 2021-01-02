@@ -161,11 +161,21 @@
        (macrolet ((,name () `(funcall ,',it)))
          ,@body))))
 
+(defun funcall-or (package-and-name-list &rest args)
+  (loop for (package name) in package-and-name-list
+        do (let ((symbol (find-symbol (string name) package)))
+             (when symbol
+               (return-from funcall-or (apply symbol args))))))
+
 #+sbcl
 (defun %make-readtable-iterator (readtable)
-  (let ((char-macro-array (sb-impl::character-macro-array readtable))
-        (char-macro-ht    (sb-impl::character-macro-hash-table readtable))
-        (dispatch-tables  (sb-impl::dispatch-tables readtable))
+  (let ((char-macro-array (funcall-or '((sb-impl base-char-macro-array)
+                                        (sb-impl character-macro-array))
+                                      readtable))
+        (char-macro-ht (funcall-or '((sb-impl extended-char-table)
+                                     (sb-impl character-macro-hash-table))
+                                   readtable))
+        (dispatch-tables (sb-impl::dispatch-tables readtable))
         (char-code 0))
     (with-hash-table-iterator (ht-iterator char-macro-ht)
       (labels ((grovel-base-chars ()
