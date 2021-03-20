@@ -18,11 +18,9 @@
              (locally
                  ;;; Muffle the annoying "&OPTIONAL and &KEY found in
                  ;;; the same lambda list" style-warning
-                 #+sbcl (declare (sb-ext:muffle-conditions style-warning))
+                 #+sbcl (declare (sb-ext:muffle-conditions sb-kernel:&optional-and-&key-in-lambda-list))
                (defun ,name ,lambda-list
                  ,docstring
-
-                 #+sbcl (declare (sb-ext:unmuffle-conditions style-warning))
 
                  ,@decls
 
