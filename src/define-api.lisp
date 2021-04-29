@@ -16,50 +16,49 @@
           `(progn
              (declaim (ftype (function ,arg-typespec ,value-typespec) ,name))
              (locally
-                 ;;; Muffle the annoying "&OPTIONAL and &KEY found in
-                 ;;; the same lambda list" style-warning
+                 ;; Muffle the annoying "&OPTIONAL and &KEY found in
+                 ;; the same lambda list" style-warning
                  #+sbcl (declare (sb-ext:muffle-conditions style-warning))
                (defun ,name ,lambda-list
                  ,docstring
-
-                 #+sbcl (declare (sb-ext:unmuffle-conditions style-warning))
-
                  ,@decls
+                 (locally
+                     #+sbcl (declare (sb-ext:unmuffle-conditions style-warning))
 
-                 ;; SBCL will interpret the ftype declaration as
-                 ;; assertion and will insert type checks for us.
-                 #-sbcl
-                 (progn
-                   ;; CHECK-TYPE required parameters
-                   ,@(loop for req-arg in reqs
-                           for req-type = (pop type-list)
-                           do (assert req-type)
-                           collect `(check-type ,req-arg ,req-type))
+                     ;; SBCL will interpret the ftype declaration as
+                     ;; assertion and will insert type checks for us.
+                     #-sbcl
+                     (progn
+                       ;; CHECK-TYPE required parameters
+                       ,@(loop for req-arg in reqs
+                               for req-type = (pop type-list)
+                               do (assert req-type)
+                               collect `(check-type ,req-arg ,req-type))
 
-                   ;; CHECK-TYPE optional parameters
-                   ,@(progn
-                       (assert (or (null opts)
-                                   (eq (pop type-list) '&optional)))
-                       (loop for (opt-arg . nil) in opts
-                             for opt-type = (pop type-list)
-                             do (assert opt-type)
-                             collect `(check-type ,opt-arg ,opt-type)))
+                       ;; CHECK-TYPE optional parameters
+                       ,@(progn
+                           (assert (or (null opts)
+                                       (eq (pop type-list) '&optional)))
+                           (loop for (opt-arg . nil) in opts
+                                 for opt-type = (pop type-list)
+                                 do (assert opt-type)
+                                 collect `(check-type ,opt-arg ,opt-type)))
 
-                   ;; CHECK-TYPE rest parameter
-                   ,@(when rest
-                       (assert (eq (pop type-list) '&rest))
-                       (let ((rest-type (pop type-list)))
-                         (assert rest-type)
-                         `((dolist (x ,rest)
-                             (check-type x ,rest-type)))))
+                       ;; CHECK-TYPE rest parameter
+                       ,@(when rest
+                           (assert (eq (pop type-list) '&rest))
+                           (let ((rest-type (pop type-list)))
+                             (assert rest-type)
+                             `((dolist (x ,rest)
+                                 (check-type x ,rest-type)))))
 
-                   ;; CHECK-TYPE key parameters
-                   ,@(progn
-                       (assert (or (null keys)
-                                   (eq (pop type-list) '&key)))
-                       (loop for ((keyword key-arg)  . nil) in keys
-                             for (nil key-type) = (find keyword type-list
-                                                        :key #'car)
-                             collect `(check-type ,key-arg ,key-type))))
+                       ;; CHECK-TYPE key parameters
+                       ,@(progn
+                           (assert (or (null keys)
+                                       (eq (pop type-list) '&key)))
+                           (loop for ((keyword key-arg)  . nil) in keys
+                                 for (nil key-type) = (find keyword type-list
+                                                            :key #'car)
+                                 collect `(check-type ,key-arg ,key-type))))
 
-                 ,@body))))))))
+                     ,@body)))))))))
