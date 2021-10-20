@@ -4,7 +4,7 @@
 
 ## Table of Contents
 
-- [1 named-readtables ASDF System Details][9b5b]
+- [1 NAMED-READTABLES ASDF System Details][9b5b]
 - [2 Introduction][6faf]
     - [2.1 Links][8688]
     - [2.2 Acknowledgements][059d]
@@ -18,7 +18,7 @@
 ###### \[in package EDITOR-HINTS.NAMED-READTABLES with nicknames NAMED-READTABLES\]
 <a id='x-28-22named-readtables-22-20ASDF-2FSYSTEM-3ASYSTEM-29'></a>
 
-## 1 named-readtables ASDF System Details
+## 1 NAMED-READTABLES ASDF System Details
 
 - Version: 0.9
 - Description: Library that creates a namespace for named readtable
@@ -161,12 +161,12 @@ and the API of packages.
     Sbcl, ClozureCL, and AllegroCL at the moment. Patches for your
     implementation of choice are welcome, of course.)
 
-3. [`DEFREADTABLE`][8b94] does not have compile-time effects.
+3. [`DEFREADTABLE`][79e3] does not have compile-time effects.
 
     If you define a package via `DEFPACKAGE`, you can make that
     package the currently active package for the subsequent
     compilation of the same file via `IN-PACKAGE`. The same is,
-    however, not true for [`DEFREADTABLE`][8b94] and [`IN-READTABLE`][de3b] for the
+    however, not true for [`DEFREADTABLE`][79e3] and [`IN-READTABLE`][3521] for the
     following reason:
 
     It's unlikely that the need for special reader-macros arises for
@@ -174,14 +174,14 @@ and the API of packages.
     you're going to define the reader macro functions, and set up
     the corresponding readtable in an extra file.
 
-    If [`DEFREADTABLE`][8b94] had compile-time effects, you'd have to wrap
+    If [`DEFREADTABLE`][79e3] had compile-time effects, you'd have to wrap
     each definition of a reader-macro function in an `EVAL-WHEN` to
     make its definition available at compile-time. Because that's
-    simply not the common case, [`DEFREADTABLE`][8b94] does not have a
+    simply not the common case, [`DEFREADTABLE`][79e3] does not have a
     compile-time effect.
 
     If you want to use a readtable within the same file as its
-    definition, wrap the [`DEFREADTABLE`][8b94] and the reader-macro function
+    definition, wrap the [`DEFREADTABLE`][79e3] and the reader-macro function
     definitions in an explicit `EVAL-WHEN`.
 
 
@@ -233,7 +233,7 @@ and the API of packages.
 
 ## 4 Reference
 
-<a id='x-28EDITOR-HINTS-2ENAMED-READTABLES-3ADEFREADTABLE-20-28MGL-PAX-3AMACRO-29-29'></a>
+<a id='x-28EDITOR-HINTS-2ENAMED-READTABLES-3ADEFREADTABLE-20MGL-PAX-3AMACRO-29'></a>
 
 - [macro] **DEFREADTABLE** *NAME &BODY OPTIONS*
 
@@ -299,7 +299,7 @@ and the API of packages.
     
     The readtable is defined at load-time. If you want to have it
     available at compilation time -- say to use its reader-macros in the
-    same file as its definition -- you have to wrap the [`DEFREADTABLE`][8b94]
+    same file as its definition -- you have to wrap the `DEFREADTABLE`
     form in an explicit `EVAL-WHEN`.
     
     On redefinition, the target readtable is made empty first before
@@ -308,7 +308,7 @@ and the API of packages.
     `NIL`, `:STANDARD`, `:COMMON-LISP`, `:MODERN`, and `:CURRENT` are
     preregistered readtable names.
 
-<a id='x-28EDITOR-HINTS-2ENAMED-READTABLES-3AIN-READTABLE-20-28MGL-PAX-3AMACRO-29-29'></a>
+<a id='x-28EDITOR-HINTS-2ENAMED-READTABLES-3AIN-READTABLE-20MGL-PAX-3AMACRO-29'></a>
 
 - [macro] **IN-READTABLE** *NAME*
 
@@ -322,9 +322,9 @@ and the API of packages.
     Creates and returns a new readtable under the specified
     `NAME`.
     
-    `MERGE` takes a list of [`NAMED-READTABLE-DESIGNATOR`][fa0c]s and specifies the
+    `MERGE` takes a list of [`NAMED-READTABLE-DESIGNATOR`][11db]s and specifies the
     readtables the new readtable is created from. (See the `:MERGE` clause
-    of [`DEFREADTABLE`][8b94] for details.)
+    of [`DEFREADTABLE`][79e3] for details.)
     
     If `MERGE` is `NIL`, an empty readtable is used instead.
     
@@ -342,7 +342,7 @@ and the API of packages.
 - [function] **MERGE-READTABLES-INTO** *RESULT-READTABLE &REST NAMED-READTABLES*
 
     Copy macro character definitions of each readtable in
-    `NAMED-READTABLES` into `RESULT-READTABLE`.
+    [`NAMED-READTABLES`][9b5b] into `RESULT-READTABLE`.
     
     If a macro character appears in more than one of the readtables,
     i.e. if a conflict is discovered during the merge, an error of type
@@ -401,7 +401,7 @@ and the API of packages.
 
 - [function] **COPY-NAMED-READTABLE** *NAMED-READTABLE*
 
-    Like `COPY-READTABLE` but takes a [`NAMED-READTABLE-DESIGNATOR`][fa0c] as argument.
+    Like `COPY-READTABLE` but takes a [`NAMED-READTABLE-DESIGNATOR`][11db] as argument.
 
 <a id='x-28EDITOR-HINTS-2ENAMED-READTABLES-3ALIST-ALL-NAMED-READTABLES-20FUNCTION-29'></a>
 
@@ -410,7 +410,7 @@ and the API of packages.
     Returns a list of all registered readtables. The returned list is
     guaranteed to be fresh, but may contain duplicates.
 
-<a id='x-28EDITOR-HINTS-2ENAMED-READTABLES-3ANAMED-READTABLE-DESIGNATOR-20-28TYPE-29-29'></a>
+<a id='x-28EDITOR-HINTS-2ENAMED-READTABLES-3ANAMED-READTABLE-DESIGNATOR-20TYPE-29'></a>
 
 - [type] **NAMED-READTABLE-DESIGNATOR**
 
@@ -439,6 +439,8 @@ and the API of packages.
 
   [059d]: #x-28EDITOR-HINTS-2ENAMED-READTABLES-3A-40NAMED-READTABLES-ACKNOWLEDGEMENTS-20MGL-PAX-3ASECTION-29 "Acknowledgements"
   [0bc2]: #x-28EDITOR-HINTS-2ENAMED-READTABLES-3A-40NAMED-READTABLES-OVERVIEW-20MGL-PAX-3ASECTION-29 "Overview"
+  [11db]: #x-28EDITOR-HINTS-2ENAMED-READTABLES-3ANAMED-READTABLE-DESIGNATOR-20TYPE-29 "(EDITOR-HINTS.NAMED-READTABLES:NAMED-READTABLE-DESIGNATOR TYPE)"
+  [3521]: #x-28EDITOR-HINTS-2ENAMED-READTABLES-3AIN-READTABLE-20MGL-PAX-3AMACRO-29 "(EDITOR-HINTS.NAMED-READTABLES:IN-READTABLE MGL-PAX:MACRO)"
   [373d]: #x-28EDITOR-HINTS-2ENAMED-READTABLES-3A-40NAMED-READTABLES-REFERENCE-20MGL-PAX-3ASECTION-29 "Reference"
   [437a]: #x-28EDITOR-HINTS-2ENAMED-READTABLES-3AREADTABLE-DOES-NOT-EXIST-20CONDITION-29 "(EDITOR-HINTS.NAMED-READTABLES:READTABLE-DOES-NOT-EXIST CONDITION)"
   [4b51]: #x-28EDITOR-HINTS-2ENAMED-READTABLES-3AREADTABLE-DOES-ALREADY-EXIST-20CONDITION-29 "(EDITOR-HINTS.NAMED-READTABLES:READTABLE-DOES-ALREADY-EXIST CONDITION)"
@@ -446,15 +448,13 @@ and the API of packages.
   [62b8]: #x-28EDITOR-HINTS-2ENAMED-READTABLES-3A-40NAMED-READTABLES-API-IDIOSYNCRASIES-20MGL-PAX-3ASECTION-29 "Important API idiosyncrasies"
   [6faf]: #x-28EDITOR-HINTS-2ENAMED-READTABLES-3A-40NAMED-READTABLES-INTRODUCTION-20MGL-PAX-3ASECTION-29 "Introduction"
   [77fa]: #x-28EDITOR-HINTS-2ENAMED-READTABLES-3AMERGE-READTABLES-INTO-20FUNCTION-29 "(EDITOR-HINTS.NAMED-READTABLES:MERGE-READTABLES-INTO FUNCTION)"
+  [79e3]: #x-28EDITOR-HINTS-2ENAMED-READTABLES-3ADEFREADTABLE-20MGL-PAX-3AMACRO-29 "(EDITOR-HINTS.NAMED-READTABLES:DEFREADTABLE MGL-PAX:MACRO)"
   [8688]: #x-28EDITOR-HINTS-2ENAMED-READTABLES-3A-40NAMED-READTABLES-LINKS-20MGL-PAX-3ASECTION-29 "Links"
-  [8b94]: #x-28EDITOR-HINTS-2ENAMED-READTABLES-3ADEFREADTABLE-20-28MGL-PAX-3AMACRO-29-29 "(EDITOR-HINTS.NAMED-READTABLES:DEFREADTABLE (MGL-PAX:MACRO))"
   [958e]: #x-28EDITOR-HINTS-2ENAMED-READTABLES-3AMAKE-READTABLE-20FUNCTION-29 "(EDITOR-HINTS.NAMED-READTABLES:MAKE-READTABLE FUNCTION)"
   [9b5b]: #x-28-22named-readtables-22-20ASDF-2FSYSTEM-3ASYSTEM-29 "(\"named-readtables\" ASDF/SYSTEM:SYSTEM)"
   [acb7]: #x-28EDITOR-HINTS-2ENAMED-READTABLES-3AREADER-MACRO-CONFLICT-20CONDITION-29 "(EDITOR-HINTS.NAMED-READTABLES:READER-MACRO-CONFLICT CONDITION)"
   [cf94]: #x-28EDITOR-HINTS-2ENAMED-READTABLES-3A-40NAMED-READTABLES-EXAMPLES-20MGL-PAX-3ASECTION-29 "Examples"
-  [de3b]: #x-28EDITOR-HINTS-2ENAMED-READTABLES-3AIN-READTABLE-20-28MGL-PAX-3AMACRO-29-29 "(EDITOR-HINTS.NAMED-READTABLES:IN-READTABLE (MGL-PAX:MACRO))"
   [e4cd]: #x-28EDITOR-HINTS-2ENAMED-READTABLES-3A-40NAMED-READTABLES-API-NOTES-20MGL-PAX-3ASECTION-29 "Notes on the API"
-  [fa0c]: #x-28EDITOR-HINTS-2ENAMED-READTABLES-3ANAMED-READTABLE-DESIGNATOR-20-28TYPE-29-29 "(EDITOR-HINTS.NAMED-READTABLES:NAMED-READTABLE-DESIGNATOR (TYPE))"
 
 * * *
 ###### \[generated by [MGL-PAX](https://github.com/melisgl/mgl-pax)\]

@@ -1,7 +1,7 @@
 # Named Readtables Manual
 
 ###### \[in package EDITOR-HINTS.NAMED-READTABLES with nicknames NAMED-READTABLES\]
-## named-readtables ASDF System Details
+## NAMED-READTABLES ASDF System Details
 
 - Version: 0.9
 - Description: Library that creates a namespace for named readtable
