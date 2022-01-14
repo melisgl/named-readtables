@@ -10,9 +10,11 @@
   (let ((sb-ext:*derive-function-types* t))
     (call-next-method)))
 
+;;; See NAMED-READTABLES:@NAMED-READTABLES-MANUAL for the user guide
+;;; (if NAMED-READTABLES/DOC is loaded).
 (defsystem "named-readtables"
-  :description "Library that creates a namespace for named readtable
-  akin to the namespace of packages."
+  :description "Library that creates a namespace for readtables akin
+  to the namespace of packages."
   :author "Tobias C. Rittweiler <trittweiler@common-lisp.net>"
   :maintainer "Gábor Melis <mega@retes.hu>"
   :mailto "mega@retes.hu"
@@ -31,20 +33,21 @@
                (:file "named-readtables"))
   :in-order-to ((test-op (test-op "named-readtables/test"))))
 
+;;; FIXME: Reinstate once Try is in quicklisp.
+#+nil
 (defsystem "named-readtables/test"
-  :description "Test suite for the Named-Readtables library."
+    :description "Test suite for the Named-Readtables library."
   :author "Tobias C. Rittweiler <trittweiler@common-lisp.net>"
   :maintainer "Gábor Melis <mega@retes.hu>"
   :mailto "mega@retes.hu"
-  :depends-on ("named-readtables")
+  :depends-on ("named-readtables" "try")
   :pathname "test"
   :serial t
   :default-component-class named-readtables-source-file
   :components
   ((:file "package")
-   (:file "rt")
    (:file "tests"))
-  :perform (test-op (o c) (symbol-call :named-readtables-test '#:do-tests)))
+  :perform (test-op (o c) (symbol-call :named-readtables-test '#:test)))
 
 ;;; MGL-PAX depends on NAMED-READTABLES so we must put documentation
 ;;; in a separate system in order to be able to use MGL-PAX.
