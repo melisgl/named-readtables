@@ -21,8 +21,8 @@
 ## 1 NAMED-READTABLES ASDF System Details
 
 - Version: 0.9
-- Description: Library that creates a namespace for named readtable
-  akin to the namespace of packages.
+- Description: Library that creates a namespace for readtables akin
+  to the namespace of packages.
 - Licence: BSD, see LICENSE
 - Author: Tobias C. Rittweiler <trittweiler@common-lisp.net>
 - Maintainer: Gábor Melis <mega@retes.hu>
@@ -163,10 +163,10 @@ and the API of packages.
 
 3. [`DEFREADTABLE`][79e3] does not have compile-time effects.
 
-    If you define a package via `DEFPACKAGE`, you can make that
+    If you define a package via [`DEFPACKAGE`][4b40], you can make that
     package the currently active package for the subsequent
-    compilation of the same file via `IN-PACKAGE`. The same is,
-    however, not true for [`DEFREADTABLE`][79e3] and [`IN-READTABLE`][3521] for the
+    compilation of the same file via [`IN-PACKAGE`][c19c]. The same is,
+    however, not true for `DEFREADTABLE` and [`IN-READTABLE`][3521] for the
     following reason:
 
     It's unlikely that the need for special reader-macros arises for
@@ -174,14 +174,14 @@ and the API of packages.
     you're going to define the reader macro functions, and set up
     the corresponding readtable in an extra file.
 
-    If [`DEFREADTABLE`][79e3] had compile-time effects, you'd have to wrap
-    each definition of a reader-macro function in an `EVAL-WHEN` to
+    If `DEFREADTABLE` had compile-time effects, you'd have to wrap
+    each definition of a reader-macro function in an [`EVAL-WHEN`][c2de] to
     make its definition available at compile-time. Because that's
-    simply not the common case, [`DEFREADTABLE`][79e3] does not have a
+    simply not the common case, `DEFREADTABLE` does not have a
     compile-time effect.
 
     If you want to use a readtable within the same file as its
-    definition, wrap the [`DEFREADTABLE`][79e3] and the reader-macro function
+    definition, wrap the `DEFREADTABLE` and the reader-macro function
     definitions in an explicit `EVAL-WHEN`.
 
 
@@ -249,7 +249,7 @@ and the API of packages.
         designated into the new readtable being defined as per
         [`MERGE-READTABLES-INTO`][77fa]. The copied options are
         `:DISPATCH-MACRO-CHAR`, `:MACRO-CHAR` and `:SYNTAX-FROM`, but not
-        `READTABLE-CASE`.
+        [`READTABLE-CASE`][9edc].
     
         If no `:MERGE` clause is given, an empty readtable is used. See
         [`MAKE-READTABLE`][958e].
@@ -267,22 +267,22 @@ and the API of packages.
     - `(:DISPATCH-MACRO-CHAR MACRO-CHAR SUB-CHAR FUNCTION)`
     
         Define a new sub character `SUB-CHAR` for the dispatching macro
-        character `MACRO-CHAR`, per `SET-DISPATCH-MACRO-CHARACTER`. You
+        character `MACRO-CHAR`, per [`SET-DISPATCH-MACRO-CHARACTER`][dc6d]. You
         probably have to define `MACRO-CHAR` as a dispatching macro
         character by the following option first.
     
     - `(:MACRO-CHAR MACRO-CHAR FUNCTION [NON-TERMINATING-P])`
     
         Define a new macro character in the readtable, per
-        `SET-MACRO-CHARACTER`. If `FUNCTION` is the keyword `:DISPATCH`,
-        `MACRO-CHAR` is made a dispatching macro character, per
-        `MAKE-DISPATCH-MACRO-CHARACTER`.
+        [`SET-MACRO-CHARACTER`][ad02]. If `FUNCTION` is the keyword
+        `:DISPATCH`, `MACRO-CHAR` is made a dispatching macro character,
+        per [`MAKE-DISPATCH-MACRO-CHARACTER`][264a].
     
     - `(:SYNTAX-FROM FROM-READTABLE-DESIGNATOR FROM-CHAR TO-CHAR)`
     
         Set the character syntax of `TO-CHAR` in the readtable being
         defined to the same syntax as `FROM-CHAR` as per
-        `SET-SYNTAX-FROM-CHAR`.
+        [`SET-SYNTAX-FROM-CHAR`][e036].
     
     - `(:CASE CASE-MODE)`
     
@@ -300,7 +300,7 @@ and the API of packages.
     The readtable is defined at load-time. If you want to have it
     available at compilation time -- say to use its reader-macros in the
     same file as its definition -- you have to wrap the `DEFREADTABLE`
-    form in an explicit `EVAL-WHEN`.
+    form in an explicit [`EVAL-WHEN`][c2de].
     
     On redefinition, the target readtable is made empty first before
     it's refilled according to the clauses.
@@ -312,7 +312,7 @@ and the API of packages.
 
 - [macro] **IN-READTABLE** *NAME*
 
-    Set `*READTABLE*` to the readtable referred to by the symbol `NAME`.
+    Set [`*READTABLE*`][e64c] to the readtable referred to by the symbol `NAME`.
     Return the readtable.
 
 <a id='x-28EDITOR-HINTS-2ENAMED-READTABLES-3AMAKE-READTABLE-20FUNCTION-29'></a>
@@ -349,7 +349,7 @@ and the API of packages.
     [`READER-MACRO-CONFLICT`][acb7] is signaled.
     
     The copied options are `:DISPATCH-MACRO-CHAR`, `:MACRO-CHAR` and
-    `:SYNTAX-FROM`, but not `READTABLE-CASE`.
+    `:SYNTAX-FROM`, but not [`READTABLE-CASE`][9edc].
 
 <a id='x-28EDITOR-HINTS-2ENAMED-READTABLES-3AFIND-READTABLE-20FUNCTION-29'></a>
 
@@ -401,7 +401,7 @@ and the API of packages.
 
 - [function] **COPY-NAMED-READTABLE** *NAMED-READTABLE*
 
-    Like `COPY-READTABLE` but takes a [`NAMED-READTABLE-DESIGNATOR`][11db] as argument.
+    Like [`COPY-READTABLE`][a33c] but takes a [`NAMED-READTABLE-DESIGNATOR`][11db] as argument.
 
 <a id='x-28EDITOR-HINTS-2ENAMED-READTABLES-3ALIST-ALL-NAMED-READTABLES-20FUNCTION-29'></a>
 
@@ -415,6 +415,10 @@ and the API of packages.
 - [type] **NAMED-READTABLE-DESIGNATOR**
 
     Either a symbol or a readtable itself.
+
+<a id='x-28EDITOR-HINTS-2ENAMED-READTABLES-3AREADTABLE-ERROR-20CONDITION-29'></a>
+
+- [condition] **READTABLE-ERROR** *ERROR*
 
 <a id='x-28EDITOR-HINTS-2ENAMED-READTABLES-3AREADER-MACRO-CONFLICT-20CONDITION-29'></a>
 
@@ -440,9 +444,11 @@ and the API of packages.
   [059d]: #x-28EDITOR-HINTS-2ENAMED-READTABLES-3A-40NAMED-READTABLES-ACKNOWLEDGEMENTS-20MGL-PAX-3ASECTION-29 "Acknowledgements"
   [0bc2]: #x-28EDITOR-HINTS-2ENAMED-READTABLES-3A-40NAMED-READTABLES-OVERVIEW-20MGL-PAX-3ASECTION-29 "Overview"
   [11db]: #x-28EDITOR-HINTS-2ENAMED-READTABLES-3ANAMED-READTABLE-DESIGNATOR-20TYPE-29 "(EDITOR-HINTS.NAMED-READTABLES:NAMED-READTABLE-DESIGNATOR TYPE)"
+  [264a]: http://www.lispworks.com/documentation/HyperSpec/Body/f_mk_dis.htm "(MAKE-DISPATCH-MACRO-CHARACTER FUNCTION)"
   [3521]: #x-28EDITOR-HINTS-2ENAMED-READTABLES-3AIN-READTABLE-20MGL-PAX-3AMACRO-29 "(EDITOR-HINTS.NAMED-READTABLES:IN-READTABLE MGL-PAX:MACRO)"
   [373d]: #x-28EDITOR-HINTS-2ENAMED-READTABLES-3A-40NAMED-READTABLES-REFERENCE-20MGL-PAX-3ASECTION-29 "Reference"
   [437a]: #x-28EDITOR-HINTS-2ENAMED-READTABLES-3AREADTABLE-DOES-NOT-EXIST-20CONDITION-29 "(EDITOR-HINTS.NAMED-READTABLES:READTABLE-DOES-NOT-EXIST CONDITION)"
+  [4b40]: http://www.lispworks.com/documentation/HyperSpec/Body/m_defpkg.htm "(DEFPACKAGE MGL-PAX:MACRO)"
   [4b51]: #x-28EDITOR-HINTS-2ENAMED-READTABLES-3AREADTABLE-DOES-ALREADY-EXIST-20CONDITION-29 "(EDITOR-HINTS.NAMED-READTABLES:READTABLE-DOES-ALREADY-EXIST CONDITION)"
   [58c6]: #x-28EDITOR-HINTS-2ENAMED-READTABLES-3A-40NAMED-READTABLES-PREREGISTERED-20MGL-PAX-3ASECTION-29 "Preregistered Readtables"
   [62b8]: #x-28EDITOR-HINTS-2ENAMED-READTABLES-3A-40NAMED-READTABLES-API-IDIOSYNCRASIES-20MGL-PAX-3ASECTION-29 "Important API idiosyncrasies"
@@ -450,11 +456,23 @@ and the API of packages.
   [77fa]: #x-28EDITOR-HINTS-2ENAMED-READTABLES-3AMERGE-READTABLES-INTO-20FUNCTION-29 "(EDITOR-HINTS.NAMED-READTABLES:MERGE-READTABLES-INTO FUNCTION)"
   [79e3]: #x-28EDITOR-HINTS-2ENAMED-READTABLES-3ADEFREADTABLE-20MGL-PAX-3AMACRO-29 "(EDITOR-HINTS.NAMED-READTABLES:DEFREADTABLE MGL-PAX:MACRO)"
   [8688]: #x-28EDITOR-HINTS-2ENAMED-READTABLES-3A-40NAMED-READTABLES-LINKS-20MGL-PAX-3ASECTION-29 "Links"
+  [94b1]: http://www.lispworks.com/documentation/HyperSpec/Body/t_nil.htm "(NIL TYPE)"
   [958e]: #x-28EDITOR-HINTS-2ENAMED-READTABLES-3AMAKE-READTABLE-20FUNCTION-29 "(EDITOR-HINTS.NAMED-READTABLES:MAKE-READTABLE FUNCTION)"
   [9b5b]: #x-28-22named-readtables-22-20ASDF-2FSYSTEM-3ASYSTEM-29 "(\"named-readtables\" ASDF/SYSTEM:SYSTEM)"
+  [9d3a]: http://www.lispworks.com/documentation/HyperSpec/Body/v_nil.htm "(NIL MGL-PAX:CONSTANT)"
+  [9edc]: http://www.lispworks.com/documentation/HyperSpec/Body/f_rdtabl.htm "(READTABLE-CASE FUNCTION)"
+  [a33c]: http://www.lispworks.com/documentation/HyperSpec/Body/f_cp_rdt.htm "(COPY-READTABLE FUNCTION)"
   [acb7]: #x-28EDITOR-HINTS-2ENAMED-READTABLES-3AREADER-MACRO-CONFLICT-20CONDITION-29 "(EDITOR-HINTS.NAMED-READTABLES:READER-MACRO-CONFLICT CONDITION)"
+  [ad02]: http://www.lispworks.com/documentation/HyperSpec/Body/f_set_ma.htm "(SET-MACRO-CHARACTER FUNCTION)"
+  [b743]: http://www.lispworks.com/documentation/HyperSpec/Body/v_t.htm "(T MGL-PAX:CONSTANT)"
+  [c19c]: http://www.lispworks.com/documentation/HyperSpec/Body/m_in_pkg.htm "(IN-PACKAGE MGL-PAX:MACRO)"
+  [c2de]: http://www.lispworks.com/documentation/HyperSpec/Body/s_eval_w.htm "(EVAL-WHEN MGL-PAX:MACRO)"
+  [cb19]: http://www.lispworks.com/documentation/HyperSpec/Body/t_t.htm "(T TYPE)"
   [cf94]: #x-28EDITOR-HINTS-2ENAMED-READTABLES-3A-40NAMED-READTABLES-EXAMPLES-20MGL-PAX-3ASECTION-29 "Examples"
+  [dc6d]: http://www.lispworks.com/documentation/HyperSpec/Body/f_set__1.htm "(SET-DISPATCH-MACRO-CHARACTER FUNCTION)"
+  [e036]: http://www.lispworks.com/documentation/HyperSpec/Body/f_set_sy.htm "(SET-SYNTAX-FROM-CHAR FUNCTION)"
   [e4cd]: #x-28EDITOR-HINTS-2ENAMED-READTABLES-3A-40NAMED-READTABLES-API-NOTES-20MGL-PAX-3ASECTION-29 "Notes on the API"
+  [e64c]: http://www.lispworks.com/documentation/HyperSpec/Body/v_rdtabl.htm "(*READTABLE* VARIABLE)"
 
 * * *
 ###### \[generated by [MGL-PAX](https://github.com/melisgl/mgl-pax)\]

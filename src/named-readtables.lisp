@@ -57,9 +57,9 @@
   - `(:MACRO-CHAR MACRO-CHAR FUNCTION [NON-TERMINATING-P])`
 
       Define a new macro character in the readtable, per
-      SET-MACRO-CHARACTER. If `FUNCTION` is the keyword :DISPATCH,
-      `MACRO-CHAR` is made a dispatching macro character, per
-      MAKE-DISPATCH-MACRO-CHARACTER.
+      SET-MACRO-CHARACTER. If [FUNCTION][argument] is the keyword
+      :DISPATCH, `MACRO-CHAR` is made a dispatching macro character,
+      per MAKE-DISPATCH-MACRO-CHARACTER.
 
   - `(:SYNTAX-FROM FROM-READTABLE-DESIGNATOR FROM-CHAR TO-CHAR)`
 

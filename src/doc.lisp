@@ -199,6 +199,7 @@
   (copy-named-readtable function)
   (list-all-named-readtables function)
   (named-readtable-designator type)
+  (readtable-error condition)
   (reader-macro-conflict condition)
   (readtable-does-already-exist condition)
   (readtable-does-not-exist condition))

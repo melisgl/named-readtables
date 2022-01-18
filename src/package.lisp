@@ -28,6 +28,7 @@
          ;; Types
          #:named-readtable-designator
          ;; Conditions
+         #:readtable-error
          #:reader-macro-conflict
          #:readtable-does-already-exist
          #:readtable-does-not-exist)

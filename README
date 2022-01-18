@@ -4,8 +4,8 @@
 ## NAMED-READTABLES ASDF System Details
 
 - Version: 0.9
-- Description: Library that creates a namespace for named readtable
-  akin to the namespace of packages.
+- Description: Library that creates a namespace for readtables akin
+  to the namespace of packages.
 - Licence: BSD, see LICENSE
 - Author: Tobias C. Rittweiler <trittweiler@common-lisp.net>
 - Maintainer: Gábor Melis <mega@retes.hu>
@@ -237,9 +237,9 @@ and the API of packages.
     - `(:MACRO-CHAR MACRO-CHAR FUNCTION [NON-TERMINATING-P])`
     
         Define a new macro character in the readtable, per
-        SET-MACRO-CHARACTER. If `FUNCTION` is the keyword :DISPATCH,
-        `MACRO-CHAR` is made a dispatching macro character, per
-        MAKE-DISPATCH-MACRO-CHARACTER.
+        SET-MACRO-CHARACTER. If `FUNCTION` is the keyword
+        :DISPATCH, `MACRO-CHAR` is made a dispatching macro character,
+        per MAKE-DISPATCH-MACRO-CHARACTER.
     
     - `(:SYNTAX-FROM FROM-READTABLE-DESIGNATOR FROM-CHAR TO-CHAR)`
     
@@ -354,6 +354,8 @@ and the API of packages.
 - [type] NAMED-READTABLE-DESIGNATOR
 
     Either a symbol or a readtable itself.
+
+- [condition] READTABLE-ERROR ERROR
 
 - [condition] READER-MACRO-CONFLICT READTABLE-ERROR
 
