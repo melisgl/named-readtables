@@ -33,8 +33,6 @@
                (:file "named-readtables"))
   :in-order-to ((test-op (test-op "named-readtables/test"))))
 
-;;; FIXME: Reinstate once Try is in quicklisp.
-#+nil
 (defsystem "named-readtables/test"
     :description "Test suite for the Named-Readtables library."
   :author "Tobias C. Rittweiler <trittweiler@common-lisp.net>"
