@@ -26,6 +26,10 @@
 
   The readtable can be populated using the following OPTIONS:
 
+  - If the first element of OPTIONS is a string then it is associated
+    with the readtable as in `(SETF (DOCUMENTATION NAME 'READTABLE)
+    DOCSTRING)`.
+
   - `(:MERGE READTABLE-DESIGNATORS+)`
 
       Merge the macro character definitions from the readtables
@@ -74,9 +78,9 @@
   Any number of option clauses may appear. The options are grouped by
   their type, but in each group the order the options appeared
   textually is preserved. The following groups exist and are executed
-  in the following order: :MERGE and :FUSE (one
-  group), :CASE, :MACRO-CHAR and :DISPATCH-MACRO-CHAR (one group),
-  finally :SYNTAX-FROM.
+  in the following order: :MERGE and :FUSE (one group), :CASE,
+  :MACRO-CHAR and :DISPATCH-MACRO-CHAR (one group), finally
+  :SYNTAX-FROM.
 
   Notes:
 
@@ -125,7 +129,9 @@
 	   (setq clauses (if (listp clauses) clauses (list clauses)))
 	   (remove-if-not #'(lambda (x) (member x clauses))
 			  options :key #'first)))
-    (let* ((merge-clauses (remove-clauses '(:merge :fuze :fuse) options))
+    (let* ((docstring (when (stringp (first options))
+                        (pop options)))
+           (merge-clauses (remove-clauses '(:merge :fuze :fuse) options))
 	   (case-clauses (remove-clauses :case  options))
 	   (macro-clauses (remove-clauses '(:macro-char :dispatch-macro-char)
                                           options))
@@ -139,7 +145,7 @@
 	 (error "Bogus DEFREADTABLE clauses: ~/PPRINT-LINEAR/" other-clauses))
 	(t
 	 `(eval-when (:load-toplevel :execute)
-            ;; The (FIND-READTABLE ...) isqrt important for proper
+            ;; The (FIND-READTABLE ...) is important for proper
             ;; redefinition semantics, as redefining has to modify the
             ;; already existing readtable object.
             (let ((readtable (find-readtable ',name)))
@@ -150,6 +156,7 @@
                      (simple-style-warn
                       "Overwriting already existing readtable ~S."
                       readtable)))
+              (setf (documentation readtable 'readtable) ,docstring)
               ,@(loop for option in merge-clauses
                       collect (process-option option 'readtable))
               ,@(loop for option in case-clauses
@@ -304,6 +311,8 @@
     (%unassociate-readtable-from-name readtable-name readtable)
     (%associate-name-with-readtable new-name readtable)
     (%associate-readtable-with-name new-name readtable)
+    (%associate-docstring-with-readtable
+     readtable (%unassociate-docstring-from-readtable readtable))
     readtable))
 
 (define-api merge-readtables-into
@@ -530,7 +539,8 @@
 	  (check-type readtable-name
                       (not (satisfies reserved-readtable-name-p)))
           (%unassociate-readtable-from-name readtable-name readtable)
-          (%unassociate-name-from-readtable readtable-name readtable)))))
+          (%unassociate-name-from-readtable readtable-name readtable)
+          (%unassociate-docstring-from-readtable readtable)))))
 
 (define-api readtable-name
     (named-readtable)

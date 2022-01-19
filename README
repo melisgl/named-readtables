@@ -206,6 +206,10 @@ and the API of packages.
     
     The readtable can be populated using the following OPTIONS:
     
+    - If the first element of OPTIONS is a string then it is associated
+      with the readtable as in `(SETF (DOCUMENTATION NAME 'READTABLE)
+      DOCSTRING)`.
+    
     - `(:MERGE READTABLE-DESIGNATORS+)`
     
         Merge the macro character definitions from the readtables
@@ -254,9 +258,9 @@ and the API of packages.
     Any number of option clauses may appear. The options are grouped by
     their type, but in each group the order the options appeared
     textually is preserved. The following groups exist and are executed
-    in the following order: :MERGE and :FUSE (one
-    group), :CASE, :MACRO-CHAR and :DISPATCH-MACRO-CHAR (one group),
-    finally :SYNTAX-FROM.
+    in the following order: :MERGE and :FUSE (one group), :CASE,
+    :MACRO-CHAR and :DISPATCH-MACRO-CHAR (one group), finally
+    :SYNTAX-FROM.
     
     Notes:
     

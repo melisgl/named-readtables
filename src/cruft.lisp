@@ -21,7 +21,6 @@
            (pushnew :sbcl+safe-standard-readtable *features*)))
 
 
-;;;;; Implementation-dependent cruft
 
 ;;;; Mapping between a readtable object and its readtable-name.
 
@@ -45,6 +44,35 @@
   #+ :common-lisp (list* :standard :current :modern
                          (loop for name being each hash-value of *readtable-names*
                                collect name)))
+
+;;;; Mapping READTABLE objects to docstrings.
+
+(defvar *readtable-to-docstring* (make-hash-table :test 'eq))
+
+(defun %associate-docstring-with-readtable (readtable docstring)
+  (setf (gethash readtable *readtable-to-docstring*) docstring))
+
+(defun %unassociate-docstring-from-readtable (readtable)
+  (prog1 (gethash readtable *readtable-to-docstring*)
+    (remhash readtable *readtable-to-docstring*)))
+
+(defmethod documentation ((name symbol) (doc-type (eql 'readtable)))
+  (let ((readtable (find-readtable name)))
+    (and readtable (gethash readtable *readtable-to-docstring*))))
+
+(defmethod documentation ((readtable readtable) (doc-type (eql 'readtable)))
+  (gethash readtable *readtable-to-docstring*))
+
+(defmethod (setf documentation) (docstring (name symbol)
+                                 (doc-type (eql 'readtable)))
+  (let ((readtable (find-readtable name)))
+    (unless readtable
+      (error 'readtable-does-not-exist :readtable-name name))
+    (setf (gethash readtable *readtable-to-docstring*) docstring)))
+
+(defmethod (setf documentation) (docstring (readtable readtable)
+                                 (doc-type (eql 'readtable)))
+  (setf (gethash readtable *readtable-to-docstring*) docstring))
 
 
 ;;;; Mapping between a readtable-name and the actual readtable object.

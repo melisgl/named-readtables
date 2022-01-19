@@ -306,6 +306,22 @@
                   (:fuse A A-as-X))))
     (unregister-readtable 'does-not-exist)))
 
+(deftest readtable-documentation ()
+  (unwind-protect
+       (let ((readtable (eval '(defreadtable does-not-exist
+                                "docstring"))))
+         (is (equal (documentation 'does-not-exist 'readtable) "docstring"))
+         (is (equal (documentation readtable 'readtable) "docstring"))
+         (setf (documentation 'does-not-exist 'readtable) "docstring2")
+         (is (equal (documentation 'does-not-exist 'readtable) "docstring2"))
+         (setf (documentation readtable 'readtable) "docstring3")
+         (is (equal (documentation 'does-not-exist 'readtable) "docstring3"))
+         (rename-readtable 'does-not-exist 'new-name)
+         (is (null (documentation 'does-not-exist 'readtable)))
+         (is (equal (documentation 'new-name 'readtable) "docstring3")))
+    (unregister-readtable 'does-not-exist)
+    (unregister-readtable 'new-name)))
+
 (defun test (&key (debug nil) (print 'unexpected) (describe 'unexpected))
   ;; Bind *PACKAGE* so that names of tests printed have package names,
   ;; and M-. works on them in Slime.
