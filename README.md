@@ -346,7 +346,7 @@ and the API of packages.
 - [function] **MERGE-READTABLES-INTO** *RESULT-READTABLE &REST NAMED-READTABLES*
 
     Copy macro character definitions of each readtable in
-    [`NAMED-READTABLES`][9b5b] into `RESULT-READTABLE`.
+    `NAMED-READTABLES` into `RESULT-READTABLE`.
     
     If a macro character appears in more than one of the readtables,
     i.e. if a conflict is discovered during the merge, an error of type
