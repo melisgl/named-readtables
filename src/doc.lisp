@@ -1,15 +1,12 @@
 (in-package :named-readtables)
 
-(eval-when (:compile-toplevel :load-toplevel :execute)
-  (use-package :mgl-pax))
-
-(defsection @named-readtables-manual (:title "Named Readtables Manual")
+(pax:defsection @named-readtables-manual (:title "Named Readtables Manual")
   (named-readtables asdf:system)
-  (@named-readtables-introduction section)
-  (@named-readtables-overview section)
-  (@named-readtables-reference section))
+  (@named-readtables-introduction pax:section)
+  (@named-readtables-overview pax:section)
+  (@named-readtables-reference pax:section))
 
-(defsection @named-readtables-introduction (:title "Introduction")
+(pax:defsection @named-readtables-introduction (:title "Introduction")
   "Named-Readtables is a library that provides a namespace for
   readtables akin to the already-existing namespace of packages. In
   particular:
@@ -36,30 +33,31 @@
        glance;
 
      * it makes it possible to use multiple inheritance between readtables."
-  (@named-readtables-links section)
-  (@named-readtables-acknowledgements section))
+  (@named-readtables-links pax:section)
+  (@named-readtables-acknowledgements pax:section))
 
-(defsection @named-readtables-links (:title "Links")
+(pax:defsection @named-readtables-links (:title "Links")
   "Here is the [official repository][named-readtables-repo] and the
   [HTML documentation][named-readtables-doc] for the latest version.
 
     [named-readtables-repo]: https://github.com/melisgl/named-readtables
     [named-readtables-doc]: http://melisgl.github.io/mgl-pax-world/named-readtables-manual.html")
 
-(defsection @named-readtables-acknowledgements (:title "Acknowledgements")
+(pax:defsection @named-readtables-acknowledgements (:title "Acknowledgements")
   "Thanks to Robert Goldman for making me want to write this library.
 
   Thanks to Stephen Compall, Ariel Badichi, David Lichteblau, Bart
   Botta, David Crawford, and Pascal Costanza for being early adopters,
   providing comments and bugfixes.")
 
-(defsection @named-readtables-overview (:title "Overview")
-  (@named-readtables-api-notes section)
-  (@named-readtables-api-idiosyncrasies section)
-  (@named-readtables-preregistered section)
-  (@named-readtables-examples section))
+(pax:defsection @named-readtables-overview (:title "Overview")
+  (@named-readtables-api-notes pax:section)
+  (@named-readtables-api-idiosyncrasies pax:section)
+  (@named-readtables-preregistered pax:section)
+  (@named-readtables-examples pax:section))
 
-(defsection @named-readtables-api-notes (:title "Notes on the API" :export nil)
+(pax:defsection @named-readtables-api-notes
+    (:title "Notes on the API" :export nil)
   "The API heavily imitates the API of packages. This has the nice
   property that any experienced Common Lisper will take it up without
   effort.
@@ -82,7 +80,7 @@
 
       LIST-ALL-NAMED-READTABLES -   LIST-ALL-PACKAGES")
 
-(defsection @named-readtables-api-idiosyncrasies
+(pax:defsection @named-readtables-api-idiosyncrasies
     (:title "Important API idiosyncrasies" :export nil)
   "There are three major differences between the API of Named-Readtables,
   and the API of packages.
@@ -148,8 +146,8 @@
       definition, wrap the DEFREADTABLE and the reader-macro function
       definitions in an explicit EVAL-WHEN.")
 
-(defsection @named-readtables-preregistered (:title "Preregistered Readtables"
-                                             :export nil)
+(pax:defsection @named-readtables-preregistered
+    (:title "Preregistered Readtables" :export nil)
   "- NIL, :STANDARD, and :COMMON-LISP designate the
   _standard readtable_.
 
@@ -157,7 +155,7 @@
 
   - :CURRENT designates the _current readtable_.")
 
-(defsection @named-readtables-examples (:title "Examples" :export nil)
+(pax:defsection @named-readtables-examples (:title "Examples" :export nil)
   "```commonlisp
   (defreadtable elisp:syntax
      (:merge :standard)
@@ -185,9 +183,9 @@
   ...
   ```")
 
-(defsection @named-readtables-reference (:title "Reference")
-  (defreadtable macro)
-  (in-readtable macro)
+(pax:defsection @named-readtables-reference (:title "Reference")
+  (defreadtable pax:macro)
+  (in-readtable pax:macro)
   (make-readtable function)
   (merge-readtables-into function)
   (find-readtable function)
@@ -212,13 +210,13 @@
 (defun pax-pages ()
   `((:objects
      (, @named-readtables-manual)
-     :source-uri-fn ,(make-github-source-uri-fn
+     :source-uri-fn ,(pax:make-github-source-uri-fn
                       :named-readtables
                       "https://github.com/melisgl/named-readtables"))))
-(register-doc-in-pax-world :named-readtables (pax-sections) (pax-pages))
+(pax:register-doc-in-pax-world :named-readtables (pax-sections) (pax-pages))
 
 #+nil
 (progn
-  (update-asdf-system-readmes @named-readtables-manual :named-readtables)
-  (update-asdf-system-html-docs @named-readtables-manual :named-readtables
-                                :pages (pax-pages)))
+  (pax:update-asdf-system-readmes @named-readtables-manual :named-readtables)
+  (pax:update-asdf-system-html-docs @named-readtables-manual :named-readtables
+                                    :pages (pax-pages)))
