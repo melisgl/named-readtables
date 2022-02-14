@@ -1,7 +1,7 @@
 # Named Readtables Manual
 
 ###### \[in package EDITOR-HINTS.NAMED-READTABLES with nicknames NAMED-READTABLES\]
-## NAMED-READTABLES ASDF System Details
+## NAMED-READTABLES ASDF System
 
 - Version: 0.9
 - Description: Library that creates a namespace for readtables akin
@@ -350,7 +350,7 @@ and the API of packages.
 
     Like COPY-READTABLE but takes a NAMED-READTABLE-DESIGNATOR as argument.
 
-- [function] LIST-ALL-NAMED-READTABLES 
+- [function] LIST-ALL-NAMED-READTABLES
 
     Returns a list of all registered readtables. The returned list is
     guaranteed to be fresh, but may contain duplicates.

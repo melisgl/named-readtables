@@ -3,7 +3,7 @@
 
 ## Table of Contents
 
-- [1 NAMED-READTABLES ASDF System Details][718a]
+- [1 `NAMED-READTABLES` ASDF System][718a]
 - [2 Introduction][480f]
     - [2.1 Links][a61b]
     - [2.2 Acknowledgements][ebdc]
@@ -16,7 +16,7 @@
 
 ###### \[in package EDITOR-HINTS.NAMED-READTABLES with nicknames NAMED-READTABLES\]
 <a id="x-28-22named-readtables-22-20ASDF-2FSYSTEM-3ASYSTEM-29"></a>
-## 1 NAMED-READTABLES ASDF System Details
+## 1 `NAMED-READTABLES` ASDF System
 
 - Version: 0.9
 - Description: Library that creates a namespace for readtables akin
@@ -386,7 +386,7 @@ and the API of packages.
     Like [`COPY-READTABLE`][efc8] but takes a [`NAMED-READTABLE-DESIGNATOR`][4e61] as argument.
 
 <a id="x-28EDITOR-HINTS-2ENAMED-READTABLES-3ALIST-ALL-NAMED-READTABLES-20FUNCTION-29"></a>
-- [function] **LIST-ALL-NAMED-READTABLES** 
+- [function] **LIST-ALL-NAMED-READTABLES**
 
     Returns a list of all registered readtables. The returned list is
     guaranteed to be fresh, but may contain duplicates.
