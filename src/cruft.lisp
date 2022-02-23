@@ -56,23 +56,31 @@
   (prog1 (gethash readtable *readtable-to-docstring*)
     (remhash readtable *readtable-to-docstring*)))
 
-(defmethod documentation ((name symbol) (doc-type (eql 'readtable)))
-  (let ((readtable (find-readtable name)))
-    (and readtable (gethash readtable *readtable-to-docstring*))))
+;;;; Specialized DOCUMENTATION for named readtables.
 
-(defmethod documentation ((readtable readtable) (doc-type (eql 'readtable)))
-  (gethash readtable *readtable-to-docstring*))
+;;; Lispworks, at least, forbids defining methods on DOCUMENTATION.
+;;; Wrapping these forms with WITHOUT-PACKAGE-LOCK (as for PRINT-OBJECT,
+;;; see below) allows this to compile on Lispworks.
 
-(defmethod (setf documentation) (docstring (name symbol)
-                                 (doc-type (eql 'readtable)))
-  (let ((readtable (find-readtable name)))
-    (unless readtable
-      (error 'readtable-does-not-exist :readtable-name name))
+(without-package-lock (:common-lisp #+lispworks :implementation)
+
+  (defmethod documentation ((name symbol) (doc-type (eql 'readtable)))
+    (let ((readtable (find-readtable name)))
+      (and readtable (gethash readtable *readtable-to-docstring*))))
+
+  (defmethod documentation ((readtable readtable) (doc-type (eql 'readtable)))
+    (gethash readtable *readtable-to-docstring*))
+
+  (defmethod (setf documentation) (docstring (name symbol)
+                                             (doc-type (eql 'readtable)))
+    (let ((readtable (find-readtable name)))
+      (unless readtable
+        (error 'readtable-does-not-exist :readtable-name name))
+      (setf (gethash readtable *readtable-to-docstring*) docstring)))
+
+  (defmethod (setf documentation) (docstring (readtable readtable)
+                                             (doc-type (eql 'readtable)))
     (setf (gethash readtable *readtable-to-docstring*) docstring)))
-
-(defmethod (setf documentation) (docstring (readtable readtable)
-                                 (doc-type (eql 'readtable)))
-  (setf (gethash readtable *readtable-to-docstring*) docstring))
 
 
 ;;;; Mapping between a readtable-name and the actual readtable object.
