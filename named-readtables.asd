@@ -10,7 +10,7 @@
   (let ((sb-ext:*derive-function-types* t))
     (call-next-method)))
 
-;;; See NAMED-READTABLES:@NAMED-READTABLES-MANUAL for the user guide
+;;; See NAMED-READTABLES::@NAMED-READTABLES-MANUAL for the user guide
 ;;; (if NAMED-READTABLES/DOC is loaded).
 (defsystem "named-readtables"
   :description "Library that creates a namespace for readtables akin
@@ -34,7 +34,7 @@
   :in-order-to ((test-op (test-op "named-readtables/test"))))
 
 (defsystem "named-readtables/test"
-    :description "Test suite for the Named-Readtables library."
+  :description "Test suite for the Named-Readtables library."
   :author "Tobias C. Rittweiler <trittweiler@common-lisp.net>"
   :maintainer "Gábor Melis <mega@retes.hu>"
   :mailto "mega@retes.hu"
