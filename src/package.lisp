@@ -32,6 +32,6 @@
          #:reader-macro-conflict
          #:readtable-does-already-exist
          #:readtable-does-not-exist)
-        (:documentation "See NAMED-READTABLES:@NAMED-READTABLES-MANUAL.")))))
+        (:documentation "See NAMED-READTABLES::@NAMED-READTABLES-MANUAL.")))))
 
 (pushnew :named-readtables *features*)
