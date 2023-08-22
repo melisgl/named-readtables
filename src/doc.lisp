@@ -213,7 +213,7 @@
      :source-uri-fn ,(pax:make-github-source-uri-fn
                       :named-readtables
                       "https://github.com/melisgl/named-readtables"))))
-(pax:register-doc-in-pax-world :named-readtables (pax-sections) (pax-pages))
+(pax:register-doc-in-pax-world :named-readtables 'pax-sections 'pax-pages)
 
 #+nil
 (progn

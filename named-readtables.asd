@@ -10,8 +10,7 @@
   (let ((sb-ext:*derive-function-types* t))
     (call-next-method)))
 
-;;; See NAMED-READTABLES::@NAMED-READTABLES-MANUAL for the user guide
-;;; (if NAMED-READTABLES/DOC is loaded).
+;;; See NAMED-READTABLES::@NAMED-READTABLES-MANUAL for the user guide.
 (defsystem "named-readtables"
   :description "Library that creates a namespace for readtables akin
   to the namespace of packages."
@@ -23,6 +22,7 @@
   :source-control (:git "https://github.com/melisgl/named-readtables.git")
   :version "0.9"
   :licence "BSD, see LICENSE"
+  :depends-on ("mgl-pax-bootstrap")
   :default-component-class named-readtables-source-file
   :pathname "src"
   :serial t
@@ -30,7 +30,8 @@
                (:file "utils")
                (:file "define-api")
                (:file "cruft")
-               (:file "named-readtables"))
+               (:file "named-readtables")
+               (:file "doc"))
   :in-order-to ((test-op (test-op "named-readtables/test"))))
 
 (defsystem "named-readtables/test"
@@ -46,10 +47,3 @@
   ((:file "package")
    (:file "tests"))
   :perform (test-op (o c) (symbol-call :named-readtables-test '#:test)))
-
-;;; MGL-PAX depends on NAMED-READTABLES so we must put documentation
-;;; in a separate system in order to be able to use MGL-PAX.
-(defsystem "named-readtables/doc"
-  :depends-on ("named-readtables" "mgl-pax")
-  :pathname "src"
-  :components ((:file "doc")))
