@@ -32,18 +32,4 @@
                (:file "cruft")
                (:file "named-readtables")
                (:file "doc"))
-  :in-order-to ((test-op (test-op "named-readtables/test"))))
-
-(defsystem "named-readtables/test"
-  :description "Test suite for the Named-Readtables library."
-  :author "Tobias C. Rittweiler <trittweiler@common-lisp.net>"
-  :maintainer "Gábor Melis <mega@retes.hu>"
-  :mailto "mega@retes.hu"
-  :depends-on ("named-readtables" "try")
-  :pathname "test"
-  :serial t
-  :default-component-class named-readtables-source-file
-  :components
-  ((:file "package")
-   (:file "tests"))
-  :perform (test-op (o c) (symbol-call :named-readtables-test '#:test)))
+  :in-order-to ((test-op (test-op "named-readtables-test"))))
