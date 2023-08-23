@@ -11,7 +11,6 @@
   :depends-on ("named-readtables" "try")
   :pathname "test"
   :serial t
-  :default-component-class named-readtables-source-file
   :components
   ((:file "package")
    (:file "tests"))
