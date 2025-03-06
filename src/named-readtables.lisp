@@ -61,7 +61,7 @@
   - `(:MACRO-CHAR MACRO-CHAR FUNCTION [NON-TERMINATING-P])`
 
       Define a new macro character in the readtable, per
-      SET-MACRO-CHARACTER. If [FUNCTION][argument] is the keyword
+      SET-MACRO-CHARACTER. If [FUNCTION][pax:argument] is the keyword
       :DISPATCH, `MACRO-CHAR` is made a dispatching macro character,
       per MAKE-DISPATCH-MACRO-CHARACTER.
 
