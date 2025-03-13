@@ -175,7 +175,7 @@
      ;; NB. The :LOAD-TOPLEVEL is needed for cases like (DEFVAR *FOO*
      ;; (GET-MACRO-CHARACTER #\"))
      (setf *readtable* (ensure-readtable ',name))
-     (when (find-package :swank)
+     (when (or (find-package :swank) (find-package :slynk))
        (%frob-swank-readtable-alist *package* *readtable*))
      *readtable*))
 
@@ -186,7 +186,8 @@
 ;;;
 (defun %frob-swank-readtable-alist (package readtable)
   (let ((readtable-alist (find-symbol (string '#:*readtable-alist*)
-				      (find-package :swank))))
+                                      (or (find-package :swank)
+                                          (find-package :slynk)))))
     (when (boundp readtable-alist)
       (let ((new-item (cons (package-name package) readtable)))
         (setf (symbol-value readtable-alist)
