@@ -4,36 +4,35 @@
 
 ## Table of Contents
 
-- [1 The named-readtables ASDF System][718a]
-- [2 Introduction][480f]
-    - [2.1 Links][a61b]
-    - [2.2 Acknowledgements][ebdc]
-- [3 Overview][c1e9]
-    - [3.1 Notes on the API][f800]
-    - [3.2 Important API idiosyncrasies][398b]
-    - [3.3 Preregistered Readtables][c5dc]
-    - [3.4 Examples][aae8]
-- [4 Reference][4d56]
+- [1 Introduction][480f]
+    - [1.1 Links][a61b]
+    - [1.2 Acknowledgements][ebdc]
+- [2 Overview][c1e9]
+    - [2.1 Notes on the API][f800]
+    - [2.2 Important API idiosyncrasies][398b]
+    - [2.3 Preregistered Readtables][c5dc]
+    - [2.4 Examples][aae8]
+- [3 Reference][4d56]
 
 ###### \[in package EDITOR-HINTS.NAMED-READTABLES with nicknames NAMED-READTABLES\]
 <a id="x-28-22named-readtables-22-20ASDF-2FSYSTEM-3ASYSTEM-29"></a>
 
-## 1 The named-readtables ASDF System
-
-- Version: 0.9
-- Description: Library that creates a namespace for readtables akin
-  to the namespace of packages.
-- Licence: BSD, see LICENSE
-- Author: Tobias C. Rittweiler <trittweiler@common-lisp.net>
-- Maintainer: Gábor Melis <mega@retes.hu>
-- Mailto: [mega@retes.hu](mailto:mega@retes.hu)
-- Homepage: [http://melisgl.github.io/named-readtables](http://melisgl.github.io/named-readtables)
-- Bug tracker: [https://github.com/melisgl/named-readtables/issues](https://github.com/melisgl/named-readtables/issues)
-- Source control: [GIT](https://github.com/melisgl/named-readtables.git)
+- [system] **"named-readtables"**
+    - Version: 0.9
+    - Description: Library that creates a namespace for readtables akin
+        to the namespace of packages.
+    - Licence: BSD, see LICENSE
+    - Author: Tobias C. Rittweiler <trittweiler@common-lisp.net>
+    - Maintainer: Gábor Melis <mega@retes.hu>
+    - Mailto: [mega@retes.hu](mailto:mega@retes.hu)
+    - Homepage: [http://melisgl.github.io/named-readtables](http://melisgl.github.io/named-readtables)
+    - Bug tracker: [https://github.com/melisgl/named-readtables/issues](https://github.com/melisgl/named-readtables/issues)
+    - Source control: [GIT](https://github.com/melisgl/named-readtables.git)
+    - Depends on: mgl-pax-bootstrap
 
 <a id="x-28EDITOR-HINTS-2ENAMED-READTABLES-3A-40NAMED-READTABLES-INTRODUCTION-20MGL-PAX-3ASECTION-29"></a>
 
-## 2 Introduction
+## 1 Introduction
 
 Named-Readtables is a library that provides a namespace for
 readtables akin to the already-existing namespace of packages. In
@@ -65,7 +64,7 @@ readtables in a *modular* way. In particular:
 
 <a id="x-28EDITOR-HINTS-2ENAMED-READTABLES-3A-40NAMED-READTABLES-LINKS-20MGL-PAX-3ASECTION-29"></a>
 
-### 2.1 Links
+### 1.1 Links
 
 Here is the [official repository][named-readtables-repo] and the
 [HTML documentation][named-readtables-doc] for the latest version.
@@ -77,7 +76,7 @@ Here is the [official repository][named-readtables-repo] and the
 
 <a id="x-28EDITOR-HINTS-2ENAMED-READTABLES-3A-40NAMED-READTABLES-ACKNOWLEDGEMENTS-20MGL-PAX-3ASECTION-29"></a>
 
-### 2.2 Acknowledgements
+### 1.2 Acknowledgements
 
 Thanks to Robert Goldman for making me want to write this library.
 
@@ -87,11 +86,11 @@ providing comments and bugfixes.
 
 <a id="x-28EDITOR-HINTS-2ENAMED-READTABLES-3A-40NAMED-READTABLES-OVERVIEW-20MGL-PAX-3ASECTION-29"></a>
 
-## 3 Overview
+## 2 Overview
 
 <a id="x-28EDITOR-HINTS-2ENAMED-READTABLES-3A-40NAMED-READTABLES-API-NOTES-20MGL-PAX-3ASECTION-29"></a>
 
-### 3.1 Notes on the API
+### 2.1 Notes on the API
 
 The API heavily imitates the API of packages. This has the nice
 property that any experienced Common Lisper will take it up without
@@ -118,7 +117,7 @@ effort.
 
 <a id="x-28EDITOR-HINTS-2ENAMED-READTABLES-3A-40NAMED-READTABLES-API-IDIOSYNCRASIES-20MGL-PAX-3ASECTION-29"></a>
 
-### 3.2 Important API idiosyncrasies
+### 2.2 Important API idiosyncrasies
 
 There are three major differences between the API of Named-Readtables,
 and the API of packages.
@@ -187,7 +186,7 @@ and the API of packages.
 
 <a id="x-28EDITOR-HINTS-2ENAMED-READTABLES-3A-40NAMED-READTABLES-PREREGISTERED-20MGL-PAX-3ASECTION-29"></a>
 
-### 3.3 Preregistered Readtables
+### 2.3 Preregistered Readtables
 
 - `NIL`, `:STANDARD`, and `:COMMON-LISP` designate the
 *standard readtable*.
@@ -199,7 +198,7 @@ and the API of packages.
 
 <a id="x-28EDITOR-HINTS-2ENAMED-READTABLES-3A-40NAMED-READTABLES-EXAMPLES-20MGL-PAX-3ASECTION-29"></a>
 
-### 3.4 Examples
+### 2.4 Examples
 
 ```commonlisp
 (defreadtable elisp:syntax
@@ -231,7 +230,7 @@ and the API of packages.
 
 <a id="x-28EDITOR-HINTS-2ENAMED-READTABLES-3A-40NAMED-READTABLES-REFERENCE-20MGL-PAX-3ASECTION-29"></a>
 
-## 4 Reference
+## 3 Reference
 
 <a id="x-28EDITOR-HINTS-2ENAMED-READTABLES-3ADEFREADTABLE-20MGL-PAX-3AMACRO-29"></a>
 
@@ -459,7 +458,6 @@ and the API of packages.
   [5b1b]: http://www.lispworks.com/documentation/HyperSpec/Body/f_set__1.htm "SET-DISPATCH-MACRO-CHARACTER (MGL-PAX:CLHS FUNCTION)"
   [6a02]: #x-28EDITOR-HINTS-2ENAMED-READTABLES-3ADEFREADTABLE-20MGL-PAX-3AMACRO-29 "EDITOR-HINTS.NAMED-READTABLES:DEFREADTABLE MGL-PAX:MACRO"
   [6d9f]: http://www.lispworks.com/documentation/HyperSpec/Body/f_cp_rdt.htm "COPY-READTABLE (MGL-PAX:CLHS FUNCTION)"
-  [718a]: #x-28-22named-readtables-22-20ASDF-2FSYSTEM-3ASYSTEM-29 '"named-readtables" ASDF/SYSTEM:SYSTEM'
   [78ad]: #x-28EDITOR-HINTS-2ENAMED-READTABLES-3AREADTABLE-DOES-ALREADY-EXIST-20CONDITION-29 "EDITOR-HINTS.NAMED-READTABLES:READTABLE-DOES-ALREADY-EXIST CONDITION"
   [9b43]: http://www.lispworks.com/documentation/HyperSpec/Body/m_defpkg.htm "DEFPACKAGE (MGL-PAX:CLHS MGL-PAX:MACRO)"
   [9c9c]: http://www.lispworks.com/documentation/HyperSpec/Body/s_eval_w.htm "EVAL-WHEN (MGL-PAX:CLHS MGL-PAX:MACRO)"
