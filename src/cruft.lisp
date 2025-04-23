@@ -83,6 +83,18 @@
     (setf (gethash readtable *readtable-to-docstring*) docstring)))
 
 
+;;;; Mapping READTABLE objects to a dummy functions with a source location.
+
+(defvar *readtable-to-dummy-with-source-location* (make-hash-table :test 'eq))
+
+(defun %associate-dummy-with-readtable (readtable dummy)
+  (setf (gethash readtable *readtable-to-dummy-with-source-location*) dummy))
+
+(defun %unassociate-dummy-from-readtable (readtable)
+  (prog1 (gethash readtable *readtable-to-dummy-with-source-location*)
+    (remhash readtable *readtable-to-dummy-with-source-location*)))
+
+
 ;;;; Mapping between a readtable-name and the actual readtable object.
 
 ;;; On Allegro we reuse their named-readtable support so we work

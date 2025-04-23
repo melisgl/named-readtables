@@ -139,7 +139,8 @@
 	   (other-clauses
              (set-difference options
                              (append merge-clauses case-clauses
-                                     macro-clauses syntax-clauses))))
+                                     macro-clauses syntax-clauses)))
+           (%dummy (gensym "SOURCE-LOCATION-DUMMY")))
       (cond
 	((not (null other-clauses))
 	 (error "Bogus DEFREADTABLE clauses: ~/PPRINT-LINEAR/" other-clauses))
@@ -157,6 +158,8 @@
                       "Overwriting already existing readtable ~S."
                       readtable)))
               (setf (documentation readtable 'readtable) ,docstring)
+              (defun ,%dummy ())
+              (%associate-dummy-with-readtable readtable ',%dummy)
               ,@(loop for option in merge-clauses
                       collect (process-option option 'readtable))
               ,@(loop for option in case-clauses
@@ -312,8 +315,6 @@
     (%unassociate-readtable-from-name readtable-name readtable)
     (%associate-name-with-readtable new-name readtable)
     (%associate-readtable-with-name new-name readtable)
-    (%associate-docstring-with-readtable
-     readtable (%unassociate-docstring-from-readtable readtable))
     readtable))
 
 (define-api merge-readtables-into
@@ -541,7 +542,8 @@
                       (not (satisfies reserved-readtable-name-p)))
           (%unassociate-readtable-from-name readtable-name readtable)
           (%unassociate-name-from-readtable readtable-name readtable)
-          (%unassociate-docstring-from-readtable readtable)))))
+          (%unassociate-docstring-from-readtable readtable)
+          (%unassociate-dummy-from-readtable readtable)))))
 
 (define-api readtable-name
     (named-readtable)
