@@ -18,17 +18,17 @@
 <a id="x-28-22named-readtables-22-20ASDF-2FSYSTEM-3ASYSTEM-29"></a>
 
 - [system] **"named-readtables"**
-    - Version: 0.9
-    - Description: Library that creates a namespace for readtables akin
+    - _Version:_ 0.9
+    - _Description:_ Library that creates a namespace for readtables akin
         to the namespace of packages.
-    - Licence: BSD, see LICENSE
-    - Author: Tobias C. Rittweiler <trittweiler@common-lisp.net>
-    - Maintainer: Gábor Melis <mega@retes.hu>
-    - Mailto: [mega@retes.hu](mailto:mega@retes.hu)
-    - Homepage: [http://melisgl.github.io/named-readtables](http://melisgl.github.io/named-readtables)
-    - Bug tracker: [https://github.com/melisgl/named-readtables/issues](https://github.com/melisgl/named-readtables/issues)
-    - Source control: [GIT](https://github.com/melisgl/named-readtables.git)
-    - Depends on: mgl-pax-bootstrap
+    - _Licence:_ BSD, see LICENSE
+    - _Author:_ Tobias C. Rittweiler <trittweiler@common-lisp.net>
+    - _Maintainer:_ Gábor Melis <mega@retes.hu>
+    - _Mailto:_ [mega@retes.hu](mailto:mega@retes.hu)
+    - _Homepage:_ [http://melisgl.github.io/named-readtables](http://melisgl.github.io/named-readtables)
+    - _Bug tracker:_ [https://github.com/melisgl/named-readtables/issues](https://github.com/melisgl/named-readtables/issues)
+    - _Source control:_ [GIT](https://github.com/melisgl/named-readtables.git)
+    - *Depends on:* mgl-pax-bootstrap
 
 <a id="x-28EDITOR-HINTS-2ENAMED-READTABLES-3A-40NAMED-READTABLES-INTRODUCTION-20MGL-PAX-3ASECTION-29"></a>
 
