@@ -1,0 +1,48 @@
+name: Test
+
+on:
+  push:
+  pull_request:
+  schedule:
+    # Every day at 18:23
+    - cron: "23 18 * * *"
+
+jobs:
+  test:
+    name: ${{ matrix.lisp }} on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 30
+    strategy:
+      matrix:
+        lisp: [abcl-bin, ccl-bin, clisp, cmu-bin/21e, ecl, sbcl-bin]
+        os: [ubuntu-latest]
+      fail-fast: false
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Let ASDF find the project
+        run: mkdir ~/common-lisp; ln -s `pwd` ~/common-lisp/named-readtables
+
+      - name: Install Roswell
+        env:
+          LISP: ${{ matrix.lisp }}
+        run: |
+          if [ $LISP = clisp ]; then
+              # KLUDGE: If we install CLISP with Roswell, then we
+              # either get complaints about multiple -B options or run
+              # into https://github.com/roswell/roswell/issues/449, so
+              # let's install it with apt. This will be picked up by
+              # 'ros --lisp clisp run'.
+              sudo apt-get -y install clisp
+              LISP=sbcl
+          fi
+          curl -L https://raw.githubusercontent.com/roswell/roswell/master/scripts/install-for-ci.sh | sh
+
+      - name: Run tests
+        env:
+          LISP: ${{ matrix.lisp }}
+        run: |
+          ros run -e '(ql:quickload :named-readtables)' -q
+          ./test/test.sh $LISP
