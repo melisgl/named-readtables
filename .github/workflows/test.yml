@@ -44,5 +44,5 @@ jobs:
         env:
           LISP: ${{ matrix.lisp }}
         run: |
-          ros run -e '(ql:quickload :named-readtables)' -q
+          ros run -e '(ql:quickload :named-readtables-test)' -q
           ./test/test.sh $LISP
