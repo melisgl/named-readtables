@@ -12,7 +12,7 @@ function run_test_case {
   local test_case_name="\"$1\""
   shift
   echo "SHTEST: Running ${test_case_name} $@"
-  $@
+  "$@"
   local retval=$?
   if ((retval == 22)); then
     echo
@@ -29,7 +29,7 @@ function lisp_tests {
   local lisp_name="$1"
   shift
 
-  run_test_case "lisp test suite on ${lisp_name}" $@ <<EOF
+  run_test_case "lisp test suite on ${lisp_name}" "$@" <<EOF
 (require :asdf)
 (asdf:load-system :named-readtables-test)
 (when (try:passedp (named-readtables-test::test :debug ${debug} :print ${print}
@@ -46,7 +46,7 @@ function run_tests {
   echo "SHTEST: running test suite ${test_suite} with ${lisp} $@"
   num_failures=0
   num_passes=0
-  ${test_suite} ${lisp} ros --lisp ${lisp} run -- $@
+  ${test_suite} ${lisp} ros --lisp ${lisp} run -- "$@"
   if ((num_failures > 0)); then
     if [ $stop_on_failure ]; then
       exit 1
