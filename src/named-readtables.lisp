@@ -200,6 +200,7 @@
                        :test (lambda (entry1 entry2)
                                (string= (car entry1) (car entry2))))))))))
 
+
 (deftype readtable-designator ()
   `(or null readtable))
 
@@ -207,6 +208,7 @@
   "Either a symbol or a readtable itself."
   `(or readtable-designator symbol))
 
+
 ;;;;; Compiler macros
 
 ;;; Since the :STANDARD readtable is interned, and we can't enforce
@@ -233,10 +235,10 @@
     (when (constant-standard-readtable-expression-p readtable-expr)
       (simple-style-warn
        "Caution: ~<You're trying to register the :STANDARD readtable ~
-    under a new name ~S. As modification of the :STANDARD readtable ~
-    is not permitted, subsequent modification of ~S won't be ~
-    permitted either. You probably want to wrap COPY-READTABLE ~
-    around~@:>~%             ~S"
+       under a new name ~S. As modification of the :STANDARD readtable ~
+       is not permitted, subsequent modification of ~S won't be ~
+       permitted either. You probably want to wrap COPY-READTABLE ~
+       around~@:>~%             ~S"
        (list name-expr name-expr) readtable-expr))))
 
 (define-compiler-macro register-readtable (&whole form name readtable)
@@ -249,6 +251,7 @@
     (signal-suspicious-registration-warning name default))
   form)
 
+
 (declaim (special *standard-readtable* *empty-readtable*))
 
 (define-api make-readtable
@@ -364,6 +367,7 @@
   (mapcar #'ensure-readtable (%list-all-readtable-names)))
 
 
+
 (define-condition readtable-error (error) ())
 
 (define-condition readtable-does-not-exist (readtable-error)
@@ -441,6 +445,7 @@
               :sub-char subchar))))
 
 
+
 ;;; Although there is no way to get at the standard readtable in
 ;;; Common Lisp (cf. /standard readtable/, CLHS glossary), we make
 ;;; up the perception of its existence by interning a copy of it.
@@ -488,6 +493,7 @@
         ((eq reserved-name :modern)      *case-preserving-standard-readtable*)
 	((eq reserved-name :current)     *readtable*)
 	(t (error "Bug: no such reserved readtable: ~S" reserved-name))))
+
 
 (define-api find-readtable
     (name)
@@ -518,7 +524,6 @@
          (error 'readtable-does-not-exist :readtable-name name))
         (t (setf (find-readtable name) (ensure-readtable default)))))
 
-
 (define-api register-readtable
     (name readtable)
     (symbol readtable => readtable)
