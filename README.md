@@ -18,6 +18,7 @@
 <a id="x-28-22named-readtables-22-20ASDF-2FSYSTEM-3ASYSTEM-29"></a>
 
 - [system] **"named-readtables"**
+
     - _Version:_ 0.9
     - _Description:_ Library that creates a namespace for readtables akin
         to the namespace of packages.
@@ -315,8 +316,13 @@ and the API of packages.
 
 - [macro] **IN-READTABLE** *NAME*
 
-    Set [`*READTABLE*`][b79a] to the readtable referred to by the symbol `NAME`.
-    Return the readtable.
+    Set [`*READTABLE*`][b79a] to the readtable referred to by the symbol `NAME` and
+    return the readtable. This may signal [`READTABLE-DOES-NOT-EXIST`][02bf].
+    
+    - Everything `IN-READTABLE` does is also performed at [compile time][27c6] if the call appears as a [top level form][0f52].
+    
+    - The effects of `IN-READTABLE` are file-local since both [`COMPILE-FILE`][0b69]
+      and [`LOAD`][b5ec] rebind `*READTABLE*`.
 
 <a id="x-28EDITOR-HINTS-2ENAMED-READTABLES-3AMAKE-READTABLE-20FUNCTION-29"></a>
 
@@ -445,9 +451,12 @@ and the API of packages.
 - [condition] **READTABLE-DOES-NOT-EXIST** *[READTABLE-ERROR][371c]*
 
   [02bf]: #x-28EDITOR-HINTS-2ENAMED-READTABLES-3AREADTABLE-DOES-NOT-EXIST-20CONDITION-29 "EDITOR-HINTS.NAMED-READTABLES:READTABLE-DOES-NOT-EXIST CONDITION"
+  [0b69]: http://www.lispworks.com/documentation/HyperSpec/Body/f_cmp_fi.htm "COMPILE-FILE (MGL-PAX:CLHS FUNCTION)"
+  [0f52]: http://www.lispworks.com/documentation/HyperSpec/Body/26_glo_t.htm#top_level_form "\"top level form\" (MGL-PAX:CLHS MGL-PAX:GLOSSARY-TERM)"
   [125e]: http://www.lispworks.com/documentation/HyperSpec/Body/m_in_pkg.htm "IN-PACKAGE (MGL-PAX:CLHS MGL-PAX:MACRO)"
   [1625]: #x-28EDITOR-HINTS-2ENAMED-READTABLES-3AMERGE-READTABLES-INTO-20FUNCTION-29 "EDITOR-HINTS.NAMED-READTABLES:MERGE-READTABLES-INTO FUNCTION"
   [1ee4]: http://www.lispworks.com/documentation/HyperSpec/Body/f_mk_dis.htm "MAKE-DISPATCH-MACRO-CHARACTER (MGL-PAX:CLHS FUNCTION)"
+  [27c6]: http://www.lispworks.com/documentation/HyperSpec/Body/26_glo_c.htm#compile_time "\"compile time\" (MGL-PAX:CLHS MGL-PAX:GLOSSARY-TERM)"
   [371c]: #x-28EDITOR-HINTS-2ENAMED-READTABLES-3AREADTABLE-ERROR-20CONDITION-29 "EDITOR-HINTS.NAMED-READTABLES:READTABLE-ERROR CONDITION"
   [3867]: http://www.lispworks.com/documentation/HyperSpec/Body/f_set_sy.htm "SET-SYNTAX-FROM-CHAR (MGL-PAX:CLHS FUNCTION)"
   [398b]: #x-28EDITOR-HINTS-2ENAMED-READTABLES-3A-40NAMED-READTABLES-API-IDIOSYNCRASIES-20MGL-PAX-3ASECTION-29 "Important API idiosyncrasies"
@@ -464,6 +473,7 @@ and the API of packages.
   [a61b]: #x-28EDITOR-HINTS-2ENAMED-READTABLES-3A-40NAMED-READTABLES-LINKS-20MGL-PAX-3ASECTION-29 "Links"
   [a8c1]: http://www.lispworks.com/documentation/HyperSpec/Body/f_set_ma.htm "SET-MACRO-CHARACTER (MGL-PAX:CLHS FUNCTION)"
   [aae8]: #x-28EDITOR-HINTS-2ENAMED-READTABLES-3A-40NAMED-READTABLES-EXAMPLES-20MGL-PAX-3ASECTION-29 "Examples"
+  [b5ec]: http://www.lispworks.com/documentation/HyperSpec/Body/f_load.htm "LOAD (MGL-PAX:CLHS FUNCTION)"
   [b79a]: http://www.lispworks.com/documentation/HyperSpec/Body/v_rdtabl.htm "*READTABLE* (MGL-PAX:CLHS VARIABLE)"
   [c1e9]: #x-28EDITOR-HINTS-2ENAMED-READTABLES-3A-40NAMED-READTABLES-OVERVIEW-20MGL-PAX-3ASECTION-29 "Overview"
   [c5dc]: #x-28EDITOR-HINTS-2ENAMED-READTABLES-3A-40NAMED-READTABLES-PREREGISTERED-20MGL-PAX-3ASECTION-29 "Preregistered Readtables"

@@ -171,8 +171,14 @@
               readtable)))))))
 
 (defmacro in-readtable (name)
-  "Set *READTABLE* to the readtable referred to by the symbol NAME.
-  Return the readtable."
+  "Set *READTABLE* to the readtable referred to by the symbol NAME and
+  return the readtable. This may signal READTABLE-DOES-NOT-EXIST.
+
+  - Everything IN-READTABLE does is also performed at [compile time][
+    pax:clhs] if the call appears as a [top level form][ pax:clhs].
+
+  - The effects of IN-READTABLE are file-local since both COMPILE-FILE
+    and LOAD rebind *READTABLE*."
   (check-type name symbol)
   `(eval-when (:compile-toplevel :load-toplevel :execute)
      ;; NB. The :LOAD-TOPLEVEL is needed for cases like (DEFVAR *FOO*
