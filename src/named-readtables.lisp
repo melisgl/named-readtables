@@ -561,7 +561,7 @@
     (named-readtable-designator => symbol)
   "Returns the name of the readtable designated by NAMED-READTABLE,
   or NIL."
-   (let ((readtable (ensure-readtable named-readtable)))
+  (let ((readtable (ensure-readtable named-readtable)))
     (cond ((%readtable-name readtable))
           ((eq readtable *readtable*) :current)
 	  ((eq readtable *standard-readtable*) :common-lisp)

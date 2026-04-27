@@ -106,14 +106,14 @@
 #+allegro
 (defun readtable-name-for-allegro (symbol)
   (multiple-value-bind (kwd status)
-        (if (keywordp symbol)
-            (values symbol nil)
-            ;; Kludge: ACL uses keywords to name readtables, we allow
-            ;; arbitrary symbols.
-            (intern (format nil "~A.~A"
-                            (package-name (symbol-package symbol))
-                            (symbol-name symbol))
-                    :keyword))
+      (if (keywordp symbol)
+          (values symbol nil)
+          ;; Kludge: ACL uses keywords to name readtables, we allow
+          ;; arbitrary symbols.
+          (intern (format nil "~A.~A"
+                          (package-name (symbol-package symbol))
+                          (symbol-name symbol))
+                  :keyword))
     (prog1 kwd
       (assert (or (not status) (get kwd 'named-readtable-designator)))
       (setf (get kwd 'named-readtable-designator) t))))
@@ -489,7 +489,7 @@
 (define-cruft %get-dispatch-macro-character (char subchar rt)
   "Ensure ANSI behaviour for GET-DISPATCH-MACRO-CHARACTER."
   #+ :ccl         (ignore-errors
-                    (get-dispatch-macro-character char subchar rt))
+                   (get-dispatch-macro-character char subchar rt))
   #+ :cmucl
   (let ((f (get-dispatch-macro-character char subchar rt)))
     ;; CMUCL returns #'LISP::DISPATCH-CHAR-ERROR, and named-readtables

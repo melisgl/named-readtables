@@ -16,13 +16,13 @@
   #+lispworks
   (return-from without-package-lock
     `(let ((hcl:*packages-for-warn-on-redefinition*
-            (set-difference hcl:*packages-for-warn-on-redefinition*
-                            '(,@package-names)
-                            :key (lambda (package-designator)
-                                   (if (packagep package-designator)
-                                       (package-name package-designator)
-                                       package-designator))
-                            :test #'string=)))
+             (set-difference hcl:*packages-for-warn-on-redefinition*
+                             '(,@package-names)
+                             :key (lambda (package-designator)
+                                    (if (packagep package-designator)
+                                        (package-name package-designator)
+                                        package-designator))
+                             :test #'string=)))
        ,@body))
   `(progn ,@body))
 
@@ -60,8 +60,8 @@ corresponding values in the CDR of VALUE."
 
 (defun simple-style-warn (format-control &rest format-args)
   (warn 'simple-style-warning
-	 :format-control format-control
-	 :format-arguments format-args))
+	:format-control format-control
+	:format-arguments format-args))
 
 (define-condition simple-program-error (simple-error program-error)
   ())
