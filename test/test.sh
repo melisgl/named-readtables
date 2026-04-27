@@ -34,7 +34,7 @@ function lisp_tests {
 (asdf:load-system :named-readtables-test)
 (when (try:passedp (named-readtables-test::test :debug ${debug} :print ${print}
                                                 :describe ${describe}))
-  (uiop/image:quit 22))
+  (uiop:quit 22))
 EOF
 }
 

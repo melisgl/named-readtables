@@ -1,8 +1,8 @@
 ;;;; -*- mode: Lisp -*-
 
-;;; This is in a separate .asd file help OS-level packaging by making
-;;; the dependency graph of .asd files (as opposed to just ASDF
-;;; systems) acyclic. See https://github.com/melisgl/try/issues/5.
+;;; This is in a separate .asd file to help OS-level packaging
+;;; (https://github.com/melisgl/try/issues/5) by making the dependency
+;;; graph of .asd files (as opposed to that of ASDF systems) acyclic.
 (defsystem "named-readtables-test"
   :description "Test suite for the Named-Readtables library."
   :author "Tobias C. Rittweiler <trittweiler@common-lisp.net>"
