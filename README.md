@@ -67,13 +67,9 @@ readtables in a *modular* way. In particular:
 
 ### 1.1 Links
 
-Here is the [official repository][named-readtables-repo] and the
-[HTML documentation][named-readtables-doc] for the latest version.
-
-[named-readtables-repo]: https://github.com/melisgl/named-readtables
-
-[named-readtables-doc]: http://melisgl.github.io/mgl-pax-world/named-readtables-manual.html
-
+The official repository is <https://github.com/melisgl/named-readtables>,
+and this document in available in various formats on
+<https://fixnum.com> for the latest version.
 
 <a id="x-28EDITOR-HINTS-2ENAMED-READTABLES-3A-40NAMED-READTABLES-ACKNOWLEDGEMENTS-20MGL-PAX-3ASECTION-29"></a>
 

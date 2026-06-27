@@ -37,11 +37,9 @@
   (@named-readtables-acknowledgements pax:section))
 
 (pax:defsection @named-readtables-links (:title "Links")
-  "Here is the [official repository][named-readtables-repo] and the
-  [HTML documentation][named-readtables-doc] for the latest version.
-
-    [named-readtables-repo]: https://github.com/melisgl/named-readtables
-    [named-readtables-doc]: http://melisgl.github.io/mgl-pax-world/named-readtables-manual.html")
+  "The official repository is <https://github.com/melisgl/named-readtables>,
+  and this document in available in various formats on
+  <https://fixnum.com> for the latest version.")
 
 (pax:defsection @named-readtables-acknowledgements (:title "Acknowledgements")
   "Thanks to Robert Goldman for making me want to write this library.
