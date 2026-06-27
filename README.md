@@ -26,8 +26,8 @@
     - _Author:_ Tobias C. Rittweiler <trittweiler@common-lisp.net>
     - _Maintainer:_ Gábor Melis <mega@retes.hu>
     - _Mailto:_ [mega@retes.hu](mailto:mega@retes.hu)
-    - _Homepage:_ [http://melisgl.github.io/named-readtables](http://melisgl.github.io/named-readtables)
-    - _Bug tracker:_ [https://github.com/melisgl/named-readtables/issues](https://github.com/melisgl/named-readtables/issues)
+    - _Homepage:_ <http://melisgl.github.io/named-readtables>
+    - _Bug tracker:_ <https://github.com/melisgl/named-readtables/issues>
     - _Source control:_ [GIT](https://github.com/melisgl/named-readtables.git)
     - *Depends on:* mgl-pax-bootstrap
 
@@ -326,7 +326,7 @@ and the API of packages.
 
 <a id="x-28EDITOR-HINTS-2ENAMED-READTABLES-3AMAKE-READTABLE-20FUNCTION-29"></a>
 
-- [function] **MAKE-READTABLE** *&OPTIONAL (NAME NIL NAME-SUPPLIED-P) &KEY MERGE*
+- [function] **MAKE-READTABLE** *&OPTIONAL NAME &KEY MERGE*
 
     Creates and returns a new readtable under the specified
     `NAME`.
@@ -369,7 +369,7 @@ and the API of packages.
 
 <a id="x-28EDITOR-HINTS-2ENAMED-READTABLES-3AENSURE-READTABLE-20FUNCTION-29"></a>
 
-- [function] **ENSURE-READTABLE** *NAME &OPTIONAL (DEFAULT NIL DEFAULT-P)*
+- [function] **ENSURE-READTABLE** *NAME &OPTIONAL DEFAULT*
 
     Looks up the readtable specified by `NAME` and returns it if it's found.
     If it is not found, it registers the readtable designated by `DEFAULT`
