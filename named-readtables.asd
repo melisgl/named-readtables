@@ -17,7 +17,7 @@
   :author "Tobias C. Rittweiler <trittweiler@common-lisp.net>"
   :maintainer "Gábor Melis <mega@retes.hu>"
   :mailto "mega@retes.hu"
-  :homepage "http://melisgl.github.io/named-readtables"
+  :homepage "https://github.com/melisgl/named-readtables"
   :bug-tracker "https://github.com/melisgl/named-readtables/issues"
   :source-control (:git "https://github.com/melisgl/named-readtables.git")
   :version "0.9"

@@ -14,7 +14,7 @@
 ;;;  ``This is enough of a foothold to implement a more elaborate
 ;;;    facility for using readtables in a localized way.''
 ;;;
-;;;                               (X3J13 Cleanup Issue IN-SYNTAX)
+;;;                               (ISSUE:IN-SYNTAX CLHS)
 ;;;
 
 ;;;;;; DEFREADTABLE &c.
@@ -82,18 +82,18 @@
   :MACRO-CHAR and :DISPATCH-MACRO-CHAR (one group), finally
   :SYNTAX-FROM.
 
-  Notes:
-
-  The readtable is defined at load-time. If you want to have it
-  available at compilation time -- say to use its reader-macros in the
-  same file as its definition -- you have to wrap the DEFREADTABLE
-  form in an explicit EVAL-WHEN.
-
-  On redefinition, the target readtable is made empty first before
-  it's refilled according to the clauses.
-
-  NIL, :STANDARD, :COMMON-LISP, :MODERN, and :CURRENT are
-  preregistered readtable names."
+  > _Notes_:
+  >
+  > - The readtable is defined at load-time. If you want to have it
+  >   available at compilation time -- say to use its reader-macros in the
+  >   same file as its definition -- you have to wrap the DEFREADTABLE
+  >   form in an explicit EVAL-WHEN.
+  >
+  > - On redefinition, the target readtable is made empty first before
+  >   it's refilled according to the clauses.
+  >
+  > - NIL, :STANDARD, :COMMON-LISP, :MODERN, and :CURRENT are
+  >   @PREREGISTERED names."
   (check-type name symbol)
   (when (reserved-readtable-name-p name)
     (error "~A is the designator for a predefined readtable. ~
@@ -274,12 +274,10 @@
 
   If NAME is not given, an anonymous empty readtable is returned.
 
-  Notes:
-
-  An empty readtable is a readtable where each character's syntax is
-  the same as in the _standard readtable_ except that each macro
-  character has been made a constituent. Basically: whitespace stays
-  whitespace, everything else is constituent."
+  > _Note:_ An empty readtable is a readtable where each character's
+  > syntax is the same as in the _standard readtable_ except that each
+  > macro character has been made a constituent. Basically: whitespace
+  > stays whitespace, everything else is constituent."
   (cond ((not name-supplied-p)
          (copy-readtable *empty-readtable*))
         ((reserved-readtable-name-p name)

@@ -4,34 +4,18 @@
 
 ## Table of Contents
 
-- [1 Introduction][480f]
-    - [1.1 Links][a61b]
-    - [1.2 Acknowledgements][ebdc]
-- [2 Overview][c1e9]
-    - [2.1 Notes on the API][f800]
-    - [2.2 Important API idiosyncrasies][398b]
-    - [2.3 Preregistered Readtables][c5dc]
-    - [2.4 Examples][aae8]
-- [3 Reference][4d56]
+- [1 Introduction][7831]
+    - [1.1 Links and Systems][b13e]
+    - [1.2 Acknowledgements][76be]
+- [2 Overview][f7fa]
+    - [2.1 Notes on the API][7326]
+    - [2.2 Important API idiosyncrasies][6b83]
+    - [2.3 Preregistered Readtables][8115]
+    - [2.4 Examples][911e]
+- [3 Reference][4e14]
 
 ###### \[in package EDITOR-HINTS.NAMED-READTABLES with nicknames NAMED-READTABLES\]
-<a id="x-28-22named-readtables-22-20ASDF-2FSYSTEM-3ASYSTEM-29"></a>
-
-- [system] **"named-readtables"**
-
-    - _Version:_ 0.9
-    - _Description:_ Library that creates a namespace for readtables akin
-        to the namespace of packages.
-    - _Licence:_ BSD, see LICENSE
-    - _Author:_ Tobias C. Rittweiler <trittweiler@common-lisp.net>
-    - _Maintainer:_ Gábor Melis <mega@retes.hu>
-    - _Mailto:_ [mega@retes.hu](mailto:mega@retes.hu)
-    - _Homepage:_ <http://melisgl.github.io/named-readtables>
-    - _Bug tracker:_ <https://github.com/melisgl/named-readtables/issues>
-    - _Source control:_ [GIT](https://github.com/melisgl/named-readtables.git)
-    - *Depends on:* mgl-pax-bootstrap
-
-<a id="x-28EDITOR-HINTS-2ENAMED-READTABLES-3A-40NAMED-READTABLES-INTRODUCTION-20MGL-PAX-3ASECTION-29"></a>
+<a id="x-28EDITOR-HINTS-2ENAMED-READTABLES-3A-40INTRODUCTION-20MGL-PAX-3ASECTION-29"></a>
 
 ## 1 Introduction
 
@@ -48,8 +32,8 @@ particular:
 
 - similiarly, your development environment now has a chance to
   automatically determine what readtable should be active while
-  processing source forms on interactive commands. (E.g. think of
-  `C-c C-c` in Slime (yet to be done))
+  processing source forms on interactive commands (e.g. think of
+  `C-c C-c` in Slime (yet to be done)).
 
 It follows that Named-Readtables is a facility for using readtables in
 a localized way.
@@ -58,20 +42,36 @@ Additionally, it also attempts to become a facility for using
 readtables in a *modular* way. In particular:
 
 - it provides a macro to specify the content of a readtable at a
- glance;
+  glance;
 
 - it makes it possible to use multiple inheritance between readtables.
 
 
-<a id="x-28EDITOR-HINTS-2ENAMED-READTABLES-3A-40NAMED-READTABLES-LINKS-20MGL-PAX-3ASECTION-29"></a>
+<a id="x-28EDITOR-HINTS-2ENAMED-READTABLES-3A-40LINKS-AND-SYSTEMS-20MGL-PAX-3ASECTION-29"></a>
 
-### 1.1 Links
+### 1.1 Links and Systems
 
 The official repository is <https://github.com/melisgl/named-readtables>,
 and this document in available in various formats on
 <https://fixnum.com> for the latest version.
 
-<a id="x-28EDITOR-HINTS-2ENAMED-READTABLES-3A-40NAMED-READTABLES-ACKNOWLEDGEMENTS-20MGL-PAX-3ASECTION-29"></a>
+<a id="x-28-22named-readtables-22-20ASDF-2FSYSTEM-3ASYSTEM-29"></a>
+
+- [system] **"named-readtables"**
+
+    - _Version:_ 0.9
+    - _Description:_ Library that creates a namespace for readtables akin
+        to the namespace of packages.
+    - _Licence:_ BSD, see LICENSE
+    - _Author:_ Tobias C. Rittweiler <trittweiler@common-lisp.net>
+    - _Maintainer:_ Gábor Melis <mega@retes.hu>
+    - _Mailto:_ [mega@retes.hu](mailto:mega@retes.hu)
+    - _Homepage:_ <https://github.com/melisgl/named-readtables>
+    - _Bug tracker:_ <https://github.com/melisgl/named-readtables/issues>
+    - _Source control:_ [GIT](https://github.com/melisgl/named-readtables.git)
+    - *Depends on:* mgl-pax-bootstrap
+
+<a id="x-28EDITOR-HINTS-2ENAMED-READTABLES-3A-40ACKNOWLEDGEMENTS-20MGL-PAX-3ASECTION-29"></a>
 
 ### 1.2 Acknowledgements
 
@@ -81,11 +81,11 @@ Thanks to Stephen Compall, Ariel Badichi, David Lichteblau, Bart
 Botta, David Crawford, and Pascal Costanza for being early adopters,
 providing comments and bugfixes.
 
-<a id="x-28EDITOR-HINTS-2ENAMED-READTABLES-3A-40NAMED-READTABLES-OVERVIEW-20MGL-PAX-3ASECTION-29"></a>
+<a id="x-28EDITOR-HINTS-2ENAMED-READTABLES-3A-40OVERVIEW-20MGL-PAX-3ASECTION-29"></a>
 
 ## 2 Overview
 
-<a id="x-28EDITOR-HINTS-2ENAMED-READTABLES-3A-40NAMED-READTABLES-API-NOTES-20MGL-PAX-3ASECTION-29"></a>
+<a id="x-28EDITOR-HINTS-2ENAMED-READTABLES-3A-40API-NOTES-20MGL-PAX-3ASECTION-29"></a>
 
 ### 2.1 Notes on the API
 
@@ -94,32 +94,24 @@ property that any experienced Common Lisper will take it up without
 effort.
 
     DEFREADTABLE              -   DEFPACKAGE
-    
     IN-READTABLE              -   IN-PACKAGE
-    
     MERGE-READTABLES-INTO     -   USE-PACKAGE
-    
     MAKE-READTABLE            -   MAKE-PACKAGE
-    
     UNREGISTER-READTABLE      -   DELETE-PACKAGE
-    
     RENAME-READTABLE          -   RENAME-PACKAGE
-    
     FIND-READTABLE            -   FIND-PACKAGE
-    
     READTABLE-NAME            -   PACKAGE-NAME
-    
     LIST-ALL-NAMED-READTABLES -   LIST-ALL-PACKAGES
 
 
-<a id="x-28EDITOR-HINTS-2ENAMED-READTABLES-3A-40NAMED-READTABLES-API-IDIOSYNCRASIES-20MGL-PAX-3ASECTION-29"></a>
+<a id="x-28EDITOR-HINTS-2ENAMED-READTABLES-3A-40API-IDIOSYNCRASIES-20MGL-PAX-3ASECTION-29"></a>
 
 ### 2.2 Important API idiosyncrasies
 
 There are three major differences between the API of Named-Readtables,
 and the API of packages.
 
-1. Readtable names are symbols not strings.
+- **Readtable names are symbols not strings.**
 
     Time has shown that the fact that packages are named by strings
     causes severe headache because of the potential of package names
@@ -135,7 +127,7 @@ and the API of packages.
     readtable hack, you really think it deserves a global name, you
     can always resort to keywords.
 
-2. The inheritance is resolved statically, not dynamically.
+- **The inheritance is resolved statically, not dynamically.**
 
     A package that uses another package will have access to all the
     other package's exported symbols, even to those that will be
@@ -157,7 +149,7 @@ and the API of packages.
     Sbcl, ClozureCL, and AllegroCL at the moment. Patches for your
     implementation of choice are welcome, of course.)
 
-3. [`DEFREADTABLE`][6a02] does not have compile-time effects.
+- **[`DEFREADTABLE`][6a02] does not have compile-time effects.**
 
     If you define a package via [`DEFPACKAGE`][9b43], you can make that
     package the currently active package for the subsequent
@@ -181,7 +173,7 @@ and the API of packages.
     definitions in an explicit `EVAL-WHEN`.
 
 
-<a id="x-28EDITOR-HINTS-2ENAMED-READTABLES-3A-40NAMED-READTABLES-PREREGISTERED-20MGL-PAX-3ASECTION-29"></a>
+<a id="x-28EDITOR-HINTS-2ENAMED-READTABLES-3A-40PREREGISTERED-20MGL-PAX-3ASECTION-29"></a>
 
 ### 2.3 Preregistered Readtables
 
@@ -193,7 +185,7 @@ and the API of packages.
 - `:CURRENT` designates the *current readtable*.
 
 
-<a id="x-28EDITOR-HINTS-2ENAMED-READTABLES-3A-40NAMED-READTABLES-EXAMPLES-20MGL-PAX-3ASECTION-29"></a>
+<a id="x-28EDITOR-HINTS-2ENAMED-READTABLES-3A-40EXAMPLES-20MGL-PAX-3ASECTION-29"></a>
 
 ### 2.4 Examples
 
@@ -225,7 +217,7 @@ and the API of packages.
 ```
 
 
-<a id="x-28EDITOR-HINTS-2ENAMED-READTABLES-3A-40NAMED-READTABLES-REFERENCE-20MGL-PAX-3ASECTION-29"></a>
+<a id="x-28EDITOR-HINTS-2ENAMED-READTABLES-3A-40REFERENCE-20MGL-PAX-3ASECTION-29"></a>
 
 ## 3 Reference
 
@@ -295,18 +287,18 @@ and the API of packages.
     `:MACRO-CHAR` and `:DISPATCH-MACRO-CHAR` (one group), finally
     `:SYNTAX-FROM`.
     
-    Notes:
+    > *Notes*:
     
-    The readtable is defined at load-time. If you want to have it
-    available at compilation time -- say to use its reader-macros in the
-    same file as its definition -- you have to wrap the `DEFREADTABLE`
-    form in an explicit [`EVAL-WHEN`][9c9c].
+    > - The readtable is defined at load-time. If you want to have it
+    >   available at compilation time -- say to use its reader-macros in the
+    >   same file as its definition -- you have to wrap the `DEFREADTABLE`
+    >   form in an explicit [`EVAL-WHEN`][9c9c].
     
-    On redefinition, the target readtable is made empty first before
-    it's refilled according to the clauses.
+    > - On redefinition, the target readtable is made empty first before
+    >   it's refilled according to the clauses.
     
-    `NIL`, `:STANDARD`, `:COMMON-LISP`, `:MODERN`, and `:CURRENT` are
-    preregistered readtable names.
+    > - `NIL`, `:STANDARD`, `:COMMON-LISP`, `:MODERN`, and `:CURRENT` are
+    >   [Preregistered Readtables][8115] names.
 
 <a id="x-28EDITOR-HINTS-2ENAMED-READTABLES-3AIN-READTABLE-20MGL-PAX-3AMACRO-29"></a>
 
@@ -335,12 +327,10 @@ and the API of packages.
     
     If `NAME` is not given, an anonymous empty readtable is returned.
     
-    Notes:
-    
-    An empty readtable is a readtable where each character's syntax is
-    the same as in the *standard readtable* except that each macro
-    character has been made a constituent. Basically: whitespace stays
-    whitespace, everything else is constituent.
+    > *Note:* An empty readtable is a readtable where each character's
+    > syntax is the same as in the *standard readtable* except that each
+    > macro character has been made a constituent. Basically: whitespace
+    > stays whitespace, everything else is constituent.
 
 <a id="x-28EDITOR-HINTS-2ENAMED-READTABLES-3AMERGE-READTABLES-INTO-20FUNCTION-29"></a>
 
@@ -455,29 +445,29 @@ and the API of packages.
   [27c6]: http://www.lispworks.com/documentation/HyperSpec/Body/26_glo_c.htm#compile_time "\"compile time\" (MGL-PAX:CLHS MGL-PAX:GLOSSARY-TERM)"
   [371c]: #x-28EDITOR-HINTS-2ENAMED-READTABLES-3AREADTABLE-ERROR-20CONDITION-29 "EDITOR-HINTS.NAMED-READTABLES:READTABLE-ERROR CONDITION"
   [3867]: http://www.lispworks.com/documentation/HyperSpec/Body/f_set_sy.htm "SET-SYNTAX-FROM-CHAR (MGL-PAX:CLHS FUNCTION)"
-  [398b]: #x-28EDITOR-HINTS-2ENAMED-READTABLES-3A-40NAMED-READTABLES-API-IDIOSYNCRASIES-20MGL-PAX-3ASECTION-29 "Important API idiosyncrasies"
-  [480f]: #x-28EDITOR-HINTS-2ENAMED-READTABLES-3A-40NAMED-READTABLES-INTRODUCTION-20MGL-PAX-3ASECTION-29 "Introduction"
   [48f1]: http://www.lispworks.com/documentation/HyperSpec/Body/f_rdtabl.htm "READTABLE-CASE (MGL-PAX:CLHS FUNCTION)"
-  [4d56]: #x-28EDITOR-HINTS-2ENAMED-READTABLES-3A-40NAMED-READTABLES-REFERENCE-20MGL-PAX-3ASECTION-29 "Reference"
+  [4e14]: #x-28EDITOR-HINTS-2ENAMED-READTABLES-3A-40REFERENCE-20MGL-PAX-3ASECTION-29 "Reference"
   [4e61]: #x-28EDITOR-HINTS-2ENAMED-READTABLES-3ANAMED-READTABLE-DESIGNATOR-20TYPE-29 "EDITOR-HINTS.NAMED-READTABLES:NAMED-READTABLE-DESIGNATOR TYPE"
   [5b1b]: http://www.lispworks.com/documentation/HyperSpec/Body/f_set__1.htm "SET-DISPATCH-MACRO-CHARACTER (MGL-PAX:CLHS FUNCTION)"
   [6a02]: #x-28EDITOR-HINTS-2ENAMED-READTABLES-3ADEFREADTABLE-20MGL-PAX-3AMACRO-29 "EDITOR-HINTS.NAMED-READTABLES:DEFREADTABLE MGL-PAX:MACRO"
+  [6b83]: #x-28EDITOR-HINTS-2ENAMED-READTABLES-3A-40API-IDIOSYNCRASIES-20MGL-PAX-3ASECTION-29 "Important API idiosyncrasies"
   [6d9f]: http://www.lispworks.com/documentation/HyperSpec/Body/f_cp_rdt.htm "COPY-READTABLE (MGL-PAX:CLHS FUNCTION)"
+  [7326]: #x-28EDITOR-HINTS-2ENAMED-READTABLES-3A-40API-NOTES-20MGL-PAX-3ASECTION-29 "Notes on the API"
+  [76be]: #x-28EDITOR-HINTS-2ENAMED-READTABLES-3A-40ACKNOWLEDGEMENTS-20MGL-PAX-3ASECTION-29 "Acknowledgements"
+  [7831]: #x-28EDITOR-HINTS-2ENAMED-READTABLES-3A-40INTRODUCTION-20MGL-PAX-3ASECTION-29 "Introduction"
   [78ad]: #x-28EDITOR-HINTS-2ENAMED-READTABLES-3AREADTABLE-DOES-ALREADY-EXIST-20CONDITION-29 "EDITOR-HINTS.NAMED-READTABLES:READTABLE-DOES-ALREADY-EXIST CONDITION"
+  [8115]: #x-28EDITOR-HINTS-2ENAMED-READTABLES-3A-40PREREGISTERED-20MGL-PAX-3ASECTION-29 "Preregistered Readtables"
+  [911e]: #x-28EDITOR-HINTS-2ENAMED-READTABLES-3A-40EXAMPLES-20MGL-PAX-3ASECTION-29 "Examples"
   [9b43]: http://www.lispworks.com/documentation/HyperSpec/Body/m_defpkg.htm "DEFPACKAGE (MGL-PAX:CLHS MGL-PAX:MACRO)"
   [9c9c]: http://www.lispworks.com/documentation/HyperSpec/Body/s_eval_w.htm "EVAL-WHEN (MGL-PAX:CLHS MGL-PAX:MACRO)"
-  [a61b]: #x-28EDITOR-HINTS-2ENAMED-READTABLES-3A-40NAMED-READTABLES-LINKS-20MGL-PAX-3ASECTION-29 "Links"
   [a8c1]: http://www.lispworks.com/documentation/HyperSpec/Body/f_set_ma.htm "SET-MACRO-CHARACTER (MGL-PAX:CLHS FUNCTION)"
-  [aae8]: #x-28EDITOR-HINTS-2ENAMED-READTABLES-3A-40NAMED-READTABLES-EXAMPLES-20MGL-PAX-3ASECTION-29 "Examples"
+  [b13e]: #x-28EDITOR-HINTS-2ENAMED-READTABLES-3A-40LINKS-AND-SYSTEMS-20MGL-PAX-3ASECTION-29 "Links and Systems"
   [b5ec]: http://www.lispworks.com/documentation/HyperSpec/Body/f_load.htm "LOAD (MGL-PAX:CLHS FUNCTION)"
   [b79a]: http://www.lispworks.com/documentation/HyperSpec/Body/v_rdtabl.htm "*READTABLE* (MGL-PAX:CLHS VARIABLE)"
-  [c1e9]: #x-28EDITOR-HINTS-2ENAMED-READTABLES-3A-40NAMED-READTABLES-OVERVIEW-20MGL-PAX-3ASECTION-29 "Overview"
-  [c5dc]: #x-28EDITOR-HINTS-2ENAMED-READTABLES-3A-40NAMED-READTABLES-PREREGISTERED-20MGL-PAX-3ASECTION-29 "Preregistered Readtables"
   [d162]: http://www.lispworks.com/documentation/HyperSpec/Body/e_error.htm "ERROR (MGL-PAX:CLHS CONDITION)"
   [eab7]: #x-28EDITOR-HINTS-2ENAMED-READTABLES-3AREADER-MACRO-CONFLICT-20CONDITION-29 "EDITOR-HINTS.NAMED-READTABLES:READER-MACRO-CONFLICT CONDITION"
-  [ebdc]: #x-28EDITOR-HINTS-2ENAMED-READTABLES-3A-40NAMED-READTABLES-ACKNOWLEDGEMENTS-20MGL-PAX-3ASECTION-29 "Acknowledgements"
   [ee2d]: #x-28EDITOR-HINTS-2ENAMED-READTABLES-3AIN-READTABLE-20MGL-PAX-3AMACRO-29 "EDITOR-HINTS.NAMED-READTABLES:IN-READTABLE MGL-PAX:MACRO"
-  [f800]: #x-28EDITOR-HINTS-2ENAMED-READTABLES-3A-40NAMED-READTABLES-API-NOTES-20MGL-PAX-3ASECTION-29 "Notes on the API"
+  [f7fa]: #x-28EDITOR-HINTS-2ENAMED-READTABLES-3A-40OVERVIEW-20MGL-PAX-3ASECTION-29 "Overview"
   [fd4c]: #x-28EDITOR-HINTS-2ENAMED-READTABLES-3AMAKE-READTABLE-20FUNCTION-29 "EDITOR-HINTS.NAMED-READTABLES:MAKE-READTABLE FUNCTION"
 
 * * *
